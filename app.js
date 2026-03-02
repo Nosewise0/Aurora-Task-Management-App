@@ -1,14 +1,9 @@
-const mongoose = require('mongoose')
+
 const express = require('express')
 const app = express();
 const ejsMate = require('ejs-mate')
 const path = require('path')
 const methodOverride = require('method-override')
-const User = require('./models/data/user')
-
-const connectDB = require('./config/database')
-
-connectDB()
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -31,11 +26,7 @@ app.get("/register", (req, res) => {
 });
 
 app.post("register", async (req, res) => {
-    const { username, email, password } = req.body;
-    const user = new User({ username, email });
-    const registeredUser = await User.register(user, password);
-    console.log(registeredUser);
-    res.redirect("/login");
+    res.render('home')
 })
 
 app.get("/tasks", (req, res) => {
