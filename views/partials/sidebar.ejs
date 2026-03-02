@@ -31,17 +31,24 @@
     </nav>
 
     <div class="sidebar-nav" style="flex: 0;">
-        <a href="/settings" class="nav-link">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </a>
-        <a href="/login" class="nav-link">
-            <i class="fas fa-sign-in-alt"></i>
-            <span>Login</span>
-        </a>
-        <a href="/register" class="nav-link">
-            <i class="fas fa-user-plus"></i>
-            <span>Register</span>
-        </a>
+        <% if (user) { %>
+            <a href="/settings" class="nav-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="/logout" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+            <% } else { %>
+                <a href="/login" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </a>
+                <a href="/register" class="nav-link">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Register</span>
+                </a>
+                <% } %>
     </div>
 </aside>

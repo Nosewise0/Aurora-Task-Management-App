@@ -37,17 +37,13 @@
                     <h5 class="fw-bold mb-4">Profile Information</h5>
                     <form>
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label class="form-label text-secondary small fw-bold">First Name</label>
-                                <input type="text" class="input-premium" value="John">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-secondary small fw-bold">Last Name</label>
-                                <input type="text" class="input-premium" value="Doe">
+                                <input type="text" class="input-premium" value="<%= user.name  %>">
                             </div>
                             <div class="col-12">
                                 <label class="form-label text-secondary small fw-bold">Email Address</label>
-                                <input type="email" class="input-premium" value="john.doe@example.com">
+                                <input type="email" class="input-premium" value="<%= user.email  %>">
                             </div>
                             <div class="col-12">
                                 <label class="form-label text-secondary small fw-bold">Bio</label>

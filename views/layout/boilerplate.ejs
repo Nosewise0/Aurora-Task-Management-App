@@ -45,7 +45,6 @@
     <script>
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebar-toggle');
-        const mobileToggle = document.getElementById('mobile-toggle');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const mainContent = document.getElementById('main-content');
 
@@ -61,25 +60,7 @@
             mainContent.classList.toggle('expanded');
             localStorage.setItem('sidebar-collapsed', isCollapsed);
         });
-
-        // Mobile Toggle
-        const toggleMobileSidebar = () => {
-            sidebar.classList.toggle('mobile-show');
-            sidebarOverlay.classList.toggle('show');
-            document.body.style.overflow = sidebar.classList.contains('mobile-show') ? 'hidden' : '';
-        };
-
-        mobileToggle.addEventListener('click', toggleMobileSidebar);
-        sidebarOverlay.addEventListener('click', toggleMobileSidebar);
-
-        // Close mobile sidebar on link click
-        sidebar.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    toggleMobileSidebar();
-                }
-            });
-        });
+        
     </script>
 
     <!-- Bootstrap JS -->
