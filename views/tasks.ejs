@@ -1,0 +1,112 @@
+<% layout('layout/boilerplate') %>
+
+    <div class="container-fluid p-0">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">Tasks board</h1>
+                <p class="text-secondary">Manage and track your team's tasks here.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary border-0" style="color: var(--text-secondary);">
+                    <i class="fas fa-filter me-2"></i>Filter
+                </button>
+                <button class="btn-premium">
+                    <i class="fas fa-plus me-2"></i>New Task
+                </button>
+            </div>
+        </div>
+
+        <!-- Board Container -->
+        <div class="row g-4 overflow-auto pb-4" style="flex-wrap: nowrap; min-height: 70vh;">
+            <!-- To Do -->
+            <div class="col-md-3" style="min-width: 300px;">
+                <div class="glass-card p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-info small"></i>To Do</h6>
+                        <span class="badge bg-secondary bg-opacity-25 text-secondary">3</span>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+                        <div class="bg-main p-3 rounded border border-color" style="background: var(--bg-main);">
+                            <div class="badge bg-primary bg-opacity-10 text-primary small mb-2">Design</div>
+                            <div class="fw-bold small mb-2">Setup design tokens</div>
+                            <div class="text-muted smaller mb-3">Define all colors and spacing variables.</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="rounded-circle bg-secondary smaller p-1"
+                                    style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 10px;">
+                                    AS</div>
+                                <div class="text-muted smaller"><i class="far fa-calendar me-1"></i>Mar 5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In Progress -->
+            <div class="col-md-3" style="min-width: 300px;">
+                <div class="glass-card p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-warning small"></i>In Progress</h6>
+                        <span class="badge bg-secondary bg-opacity-25 text-secondary">2</span>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+                        <div class="bg-main p-3 rounded border border-color" style="background: var(--bg-main);">
+                            <div class="badge bg-warning bg-opacity-10 text-warning small mb-2">Dev</div>
+                            <div class="fw-bold small mb-2">Implement Auth Routes</div>
+                            <div class="text-muted smaller mb-3">Setup passport and express sessions.</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="rounded-circle bg-secondary smaller p-1"
+                                    style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 10px;">
+                                    JD</div>
+                                <div class="text-muted smaller"><i class="far fa-calendar me-1"></i>Mar 2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review -->
+            <div class="col-md-3" style="min-width: 300px;">
+                <div class="glass-card p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-primary small"></i>Review</h6>
+                        <span class="badge bg-secondary bg-opacity-25 text-secondary">1</span>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+                        <div class="bg-main p-3 rounded border border-color" style="background: var(--bg-main);">
+                            <div class="badge bg-secondary bg-opacity-10 text-secondary small mb-2">Content</div>
+                            <div class="fw-bold small mb-2">Write UX Copy</div>
+                            <div class="text-muted smaller mb-3">Review all button labels and tooltips.</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="rounded-circle bg-secondary smaller p-1"
+                                    style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 10px;">
+                                    BK</div>
+                                <div class="text-muted smaller"><i class="far fa-calendar me-1"></i>Mar 1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Done -->
+            <div class="col-md-3" style="min-width: 300px;">
+                <div class="glass-card p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-success small"></i>Done</h6>
+                        <span class="badge bg-secondary bg-opacity-25 text-secondary">12</span>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3">
+                        <div class="bg-main p-3 rounded border border-color opacity-75"
+                            style="background: var(--bg-main);">
+                            <div class="badge bg-success bg-opacity-10 text-success small mb-2">Setup</div>
+                            <div class="fw-bold small mb-2">Project Initialization</div>
+                            <div class="text-muted smaller">Repo and database setup complete.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

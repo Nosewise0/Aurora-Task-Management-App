@@ -1,0 +1,35 @@
+<% layout('layout/boilerplate') %>
+
+    <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 4rem);">
+        <div class="glass-card" style="width: 100%; max-width: 450px;">
+            <div class="text-center mb-4">
+                <i class="fas fa-rocket fa-3x mb-3" style="color: var(--accent-primary);"></i>
+                <h2 class="fw-bold">Welcome Back</h2>
+                <p class="text-secondary">Please enter your details to sign in</p>
+            </div>
+
+            <form action="/login" method="POST">
+                <div class="mb-3">
+                    <label class="form-label text-secondary fw-semibold">Email Address</label>
+                    <input type="email" name="email" class="input-premium" placeholder="name@company.com" required>
+                </div>
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label text-secondary fw-semibold">Password</label>
+                        <a href="#" class="text-decoration-none small" style="color: var(--accent-primary);">Forgot
+                            password?</a>
+                    </div>
+                    <input type="password" name="password" class="input-premium" placeholder="••••••••" required>
+                </div>
+
+                <button class="btn-premium w-100 mb-3" type="submit">Sign In</button>
+
+                <div class="text-center">
+                    <p class="text-secondary small">Don't have an account?
+                        <a href="/register" class="text-decoration-none fw-bold"
+                            style="color: var(--accent-primary);">Sign up for free</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>

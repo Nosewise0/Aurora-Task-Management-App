@@ -1,0 +1,88 @@
+<% layout('layout/boilerplate') %>
+
+    <div class="container-fluid p-0">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">Team</h1>
+                <p class="text-secondary">Manage your team members and their availability.</p>
+            </div>
+            <button class="btn-premium">
+                <i class="fas fa-user-plus me-2"></i>Invite Member
+            </button>
+        </div>
+
+        <div class="glass-card p-0 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0"
+                    style="--bs-table-bg: transparent; --bs-table-hover-bg: var(--bg-card-hover);">
+                    <thead>
+                        <tr class="border-secondary border-opacity-10">
+                            <th class="px-4 py-3 text-secondary small text-uppercase">Member</th>
+                            <th class="py-3 text-secondary small text-uppercase">Role</th>
+                            <th class="py-3 text-secondary small text-uppercase">Status</th>
+                            <th class="py-3 text-secondary small text-uppercase">Email</th>
+                            <th class="py-3 text-secondary small text-uppercase">Activity</th>
+                            <th class="px-4 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+                        <tr class="align-middle">
+                            <td class="px-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-primary p-2 me-3"
+                                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                        JD</div>
+                                    <div class="fw-bold">John Doe</div>
+                                </div>
+                            </td>
+                            <td>Senior Developer</td>
+                            <td><span
+                                    class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Online</span>
+                            </td>
+                            <td class="text-secondary">john@aurora.io</td>
+                            <td>
+                                <div class="text-secondary small">Last active 5m ago</div>
+                            </td>
+                            <td class="px-4 text-end"><i class="fas fa-ellipsis-h text-muted cursor-pointer"></i></td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td class="px-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-info p-2 me-3"
+                                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                        AS</div>
+                                    <div class="fw-bold">Alice Smith</div>
+                                </div>
+                            </td>
+                            <td>UX Designer</td>
+                            <td><span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">In
+                                    Meeting</span></td>
+                            <td class="text-secondary">alice@aurora.io</td>
+                            <td>
+                                <div class="text-secondary small">Last active 2h ago</div>
+                            </td>
+                            <td class="px-4 text-end"><i class="fas fa-ellipsis-h text-muted cursor-pointer"></i></td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td class="px-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-warning p-2 me-3"
+                                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                        BK</div>
+                                    <div class="fw-bold">Bob Knight</div>
+                                </div>
+                            </td>
+                            <td>Project Manager</td>
+                            <td><span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">Away</span>
+                            </td>
+                            <td class="text-secondary">bob@aurora.io</td>
+                            <td>
+                                <div class="text-secondary small">Last active Yesterday</div>
+                            </td>
+                            <td class="px-4 text-end"><i class="fas fa-ellipsis-h text-muted cursor-pointer"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
