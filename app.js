@@ -1,16 +1,18 @@
 const express = require("express");
 const app = express();
-const mysql = require("mysql2/promise");
-const bcrypt = require("bcryptjs");
 const cookie = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 
 const ejsMate = require("ejs-mate");
 const path = require("path");
 const methodOverride = require("method-override");
-const { name } = require("ejs");
 
-const JWT_SECRET = "thisshouldbeasecret";
+const authRoutes = require('./router/authRoutes')
+const settingsRoutes = require('./router/settingsRoutes')
+const calendarRoutes = require('./router/callendarRoutes')
+const tasksRoutes = require('./router/taskRoutes')
+const projectRoutes = require('./router/projectRoutes')
+const teamRoutes = require('./router/teamRoutes')
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -22,22 +24,10 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookie());
 
-let db;
-
-async function connectDB() {
-  db = await mysql.createConnection({
-    host: "localhost",
-    user: "paul",
-    password: "1234",
-    database: "aurora",
-  });
-  console.log("sucess");
-}
-
-connectDB();
+const JWT_SECRET = "thisshouldbeasecret";
 
 app.use((req, res, next) => {
-  const token = req.cookies.token;
+  const { token } = req.cookies;
   if (token) {
     try {
       const decoded = jwt.verify(token, JWT_SECRET);
@@ -51,115 +41,31 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.render("home");
-});
+app.get('/', (req,res)=> {
+  res.render('dashboard')
+})
 
-app.get("/register", (req, res) => {
-  res.render("register");
-});
+app.use('/tasks', tasksRoutes)
+app.use('/projects', projectRoutes)
+app.use('/team', teamRoutes)
+app.use('/', authRoutes)
+app.use('/calendar', calendarRoutes)
+app.use('/settings', settingsRoutes)
 
-app.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
-
-  try {
-    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
-
-    if (rows.length > 0) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const [result] = await db.execute(
-      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-      [username, email, hashedPassword],
-    );
-
-    res.redirect('/login')
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-});
-
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
-app.post("/login", async(req, res) => {
-    const {email, password} = req.body;
-
-    try {
-        const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [email,])
-        const user = rows[0]
-        if(!user) {
-            return res.status(400).json({message: "user not found"})
-        }
-
-         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
-
-        const token = jwt.sign({id: user.id, name: user.username, email: user.email}, JWT_SECRET, { expiresIn: '1h' });
-
-         res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
-            maxAge: 3600000 // 1 HR EXPIRATION
-        });
-         res.redirect('/')
-    }catch (err) {
-        console.log(err)
-        res.status(400).json({message: 'server error'})
-    }
-});
-
-
-app.get("/tasks", (req, res) => {
-  res.render("tasks");
-});
-
-app.get("/projects", (req, res) => {
-  res.render("projects");
-});
-
-app.get("/team", (req, res) => {
-  res.render("team");
-});
-
-app.get("/calendar", (req, res) => {
-  res.render("calendar");
-});
-
-app.get("/settings", (req, res) => {
-  res.render("settings");
-});
 app.get("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "Strict",
   });
-  res.redirect("/login"); // redirect user after logout
+  res.redirect("/login");
 });
 
-const verifyAuthToken = (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) return res.status(403).json({ message: 'Token is missing.' });
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (err) {
-        res.status(401).json({ message: 'Invalid token.' });
-    }
-};
+app.use((req, res, next) => {
+  res.locals.success = req.query.success;
+  res.locals.error = req.query.error;
+  next();
+})
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
