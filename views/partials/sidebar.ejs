@@ -8,23 +8,23 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a href="/" class="nav-link active">
+        <a href="/" class="nav-link <%= path === '/' ? 'active' : '' %>">
             <i class="fas fa-th-large"></i>
             <span>Dashboard</span>
         </a>
-        <a href="/tasks" class="nav-link">
+        <a href="/tasks" class="nav-link <%= path.startsWith('/tasks') ? 'active' : '' %>">
             <i class="fas fa-tasks"></i>
             <span>My Tasks</span>
         </a>
-        <a href="/projects" class="nav-link">
+        <a href="/projects" class="nav-link <%= path.startsWith('/projects') ? 'active' : '' %>">
             <i class="fas fa-layer-group"></i>
             <span>Projects</span>
         </a>
-        <a href="/team" class="nav-link">
+        <a href="/team" class="nav-link <%= path.startsWith('/team') ? 'active' : '' %>">
             <i class="fas fa-users"></i>
             <span>Team</span>
         </a>
-        <a href="/calendar" class="nav-link">
+        <a href="/calendar" class="nav-link <%= path.startsWith('/calendar') ? 'active' : '' %>">
             <i class="fas fa-calendar-alt"></i>
             <span>Calendar</span>
         </a>
@@ -32,7 +32,7 @@
 
     <div class="sidebar-nav" style="flex: 0;">
         <% if (user) { %>
-            <a href="/settings" class="nav-link">
+            <a href="/settings" class="nav-link <%= path.startsWith('/settings') ? 'active' : '' %>">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </a>
@@ -41,11 +41,11 @@
                 <span>Logout</span>
             </a>
             <% } else { %>
-                <a href="/login" class="nav-link">
+                <a href="/login" class="nav-link <%= path === '/login' ? 'active' : '' %>">
                     <i class="fas fa-sign-in-alt"></i>
                     <span>Login</span>
                 </a>
-                <a href="/register" class="nav-link">
+                <a href="/register" class="nav-link <%= path === '/register' ? 'active' : '' %>">
                     <i class="fas fa-user-plus"></i>
                     <span>Register</span>
                 </a>

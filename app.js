@@ -27,6 +27,7 @@ app.use(cookie());
 const JWT_SECRET = "thisshouldbeasecret";
 
 app.use((req, res, next) => {
+  res.locals.path = req.path;
   const { token } = req.cookies;
   if (token) {
     try {
@@ -41,7 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req,res)=> {
+app.get('/', (req, res) => {
   res.render('dashboard')
 })
 
