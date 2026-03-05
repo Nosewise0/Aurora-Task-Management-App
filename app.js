@@ -27,7 +27,7 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookie());
 
-const JWT_SECRET = "thisshouldbeasecret";
+const JWT_SECRET = process.env.JWT_SECRET || "thisshouldbeasecret";
 
 app.use((req, res, next) => {
   res.locals.path = req.path;

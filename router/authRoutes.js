@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require('../config/database')
 
-const JWT_SECRET = "thisshouldbeasecret";
+const JWT_SECRET = process.env.JWT_SECRET || "thisshouldbeasecret";
 
 router.get("/register", (req, res) => {
   res.render("register");
