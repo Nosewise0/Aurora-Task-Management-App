@@ -22,23 +22,14 @@
 </head>
 
 <body>
-    <div class="mobile-header">
-        <div class="sidebar-brand p-0" style="font-size: 1.2rem; gap: 0.5rem;">
-            <i class="fas fa-rocket"></i>
-            <span>Aurora</span>
-        </div>
-        <div class="hamburger" id="mobile-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
-    </div>
-
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <div class="app-container">
         <%- include('../partials/sidebar') %>
 
             <main class="main-content" id="main-content">
-                <%- body %>
+                <%- include('../partials/_messages') %>
+                    <%- body %>
             </main>
     </div>
 
@@ -48,13 +39,11 @@
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const mainContent = document.getElementById('main-content');
 
-        // Check for saved state on load (Desktop only)
         if (window.innerWidth > 768 && localStorage.getItem('sidebar-collapsed') === 'true') {
             sidebar.classList.add('collapsed');
             mainContent.classList.add('expanded');
         }
 
-        // Desktop Toggle
         sidebarToggle.addEventListener('click', () => {
             const isCollapsed = sidebar.classList.toggle('collapsed');
             mainContent.classList.toggle('expanded');

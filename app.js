@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const app = express();
 const cookie = require("cookie-parser");
@@ -13,6 +15,7 @@ const calendarRoutes = require('./router/callendarRoutes')
 const tasksRoutes = require('./router/taskRoutes')
 const projectRoutes = require('./router/projectRoutes')
 const teamRoutes = require('./router/teamRoutes')
+const { isLoggedIn } = require('./middleware/auth')
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -28,6 +31,8 @@ const JWT_SECRET = "thisshouldbeasecret";
 
 app.use((req, res, next) => {
   res.locals.path = req.path;
+  res.locals.success = req.query.success || null;
+  res.locals.error = req.query.error || null;
   const { token } = req.cookies;
   if (token) {
     try {
@@ -42,16 +47,16 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
+app.get('/', isLoggedIn, (req, res) => {
   res.render('dashboard')
 })
 
-app.use('/tasks', tasksRoutes)
-app.use('/projects', projectRoutes)
-app.use('/team', teamRoutes)
 app.use('/', authRoutes)
-app.use('/calendar', calendarRoutes)
-app.use('/settings', settingsRoutes)
+app.use('/tasks', isLoggedIn, tasksRoutes)
+app.use('/projects', isLoggedIn, projectRoutes)
+app.use('/team', isLoggedIn, teamRoutes)
+app.use('/calendar', isLoggedIn, calendarRoutes)
+app.use('/settings', isLoggedIn, settingsRoutes)
 
 app.get("/logout", (req, res) => {
   res.clearCookie("token", {
@@ -62,11 +67,6 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-app.use((req, res, next) => {
-  res.locals.success = req.query.success;
-  res.locals.error = req.query.error;
-  next();
-})
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
