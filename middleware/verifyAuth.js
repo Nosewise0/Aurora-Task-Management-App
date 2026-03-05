@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "thisshouldbeasecret";
+const JWT_SECRET = PROCESS;
 
 const verifyAuthToken = (req, res, next) => {
   const token = req.cookies.token;
