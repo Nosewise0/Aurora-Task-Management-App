@@ -5,10 +5,11 @@ const { formatDate, getCategoryColor, getPriorityColor } = require("../utils/tas
 
 router.get("/", async (req, res) => {
     try {
+        const user_id = req.user.id;
         const [tasks] = await db.execute(
-            "SELECT * FROM tasks ORDER BY due_date ASC",
+            "SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date ASC",[user_id]
         );
-
+      
         const todoTasks = tasks.filter(t => t.status === 'pending');
         const inProgressTasks = tasks.filter(t => t.status === 'in-progress');
         const reviewTasks = tasks.filter(t => t.status === 'review');
@@ -37,14 +38,19 @@ router.post("/", async (req, res) => {
     const { title, description, status, priority, due_date, category } = req.body;
 
     const validStatuses = ["pending", "completed", "in-progress", "review"];
-    const validPriorities = ["low", "medium", "high"];
+    const validPriorities = ["low", "medium", "high" ,"urgent"];
 
-    const safePriority = validPriorities.includes(priority) ? priority : "medium";
-    const safeStatus = validStatuses.includes(status) ? status : "pending";
+    const priorityInput = priority?.toLowerCase().trim();
+    const statusInput = status?.toLowerCase().trim();
+
+    const safePriority = validPriorities.includes(priorityInput) ? priorityInput : "medium";
+    const safeStatus = validStatuses.includes(statusInput) ? statusInput : "pending";
+
+    const user_id = req.user.id;
 
     try {
         const [newtaks] = await db.execute(
-            `INSERT INTO tasks (title, description, status,priority, due_date, category) VALUES (?,?,?,?,?,?)`,
+            `INSERT INTO tasks (title, description, status,priority, due_date, category, user_id) VALUES (?,?,?,?,?,?,?)`,
             [
                 title || null,
                 description || null,
@@ -52,6 +58,7 @@ router.post("/", async (req, res) => {
                 safePriority,
                 due_date || null,
                 category || null,
+                user_id
             ],
         );
 
