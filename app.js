@@ -47,9 +47,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/home', (req, res)=> {
-  res.render('frontPage')
-})
+app.get('/', (req, res) => {
+  res.render('frontPage');
+});
+
+app.get('/home', (req, res) => {
+  res.render('frontPage');
+});
 
 app.get('/dashboard', isLoggedIn, (req, res) => {
   res.render('dashboard')
@@ -68,7 +72,7 @@ app.get("/logout", (req, res) => {
     secure: process.env.NODE_ENV === "production",
     sameSite: "Strict",
   });
-  res.redirect("/login");
+  res.redirect("/home");
 });
 
 

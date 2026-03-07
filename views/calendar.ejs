@@ -25,14 +25,12 @@
 
             <div class="calendar-grid d-grid"
                 style="grid-template-columns: repeat(7, 1fr); background: var(--border-color); gap: 1px;">
-                <!-- Day Headers -->
                 <% ['Mon', 'Tue' , 'Wed' , 'Thu' , 'Fri' , 'Sat' , 'Sun' ].forEach(day=> { %>
                     <div class="bg-card p-2 text-center text-secondary small fw-bold">
                         <%= day %>
                     </div>
                     <% }) %>
 
-                        <!-- Empty slots (simplified example) -->
                         <% for(let i=0; i<31; i++) { %>
                             <div class="bg-main p-3" style="min-height: 120px; transition: var(--transition);">
                                 <div class="d-flex justify-content-between align-items-start mb-2">

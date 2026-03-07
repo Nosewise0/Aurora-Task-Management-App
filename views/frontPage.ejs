@@ -1,11 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Aurora – Work Management for Modern Teams</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
-    <h1>Welcome</h1>
+
+<body class="landing-body">
+    <div class="global-loader" id="global-loader">
+        <div class="global-loader-inner">
+            <div class="global-loader-logo">
+                <i class="fas fa-rocket me-2"></i>
+                <span>Aurora</span>
+            </div>
+            <div class="global-loader-spinner"></div>
+            <p class="global-loader-text">Loading your workspace...</p>
+        </div>
+    </div>
+    <header class="landing-header">
+        <div class="landing-nav container d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+                <div class="landing-logo-mark d-flex align-items-center justify-content-center">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <span class="landing-logo-text">Aurora</span>
+            </div>
+
+            <nav class="landing-nav-links d-none d-md-flex align-items-center gap-4">
+                <a href="#product" class="landing-nav-link">Product</a>
+                <a href="#views" class="landing-nav-link">Views</a>
+                <a href="#workflow" class="landing-nav-link">Workflow</a>
+                <a href="#customers" class="landing-nav-link">Customers</a>
+                <a href="#pricing" class="landing-nav-link">Pricing</a>
+            </nav>
+            <div class="d-flex align-items-center gap-2">
+                <% if (!user) { %>
+                    <a href="/login" class="landing-nav-link d-none d-md-inline">Log in</a>
+                    <a href="/register" class="btn btn-sm btn-premium">Get started</a>
+                    <% } else { %>
+                        <a href="/dashboard" class="btn btn-sm btn-premium">Go to Account</a>
+                        <% } %>
+            </div>
+        </div>
+    </header>
+
+    <main class="landing-main">
+        <section class="landing-hero container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="landing-pill">
+                        <span class="landing-pill-dot"></span>
+                        New · Aurora workspace
+                    </div>
+                    <h1 class="landing-hero-title">
+                        The Work OS for
+                        <span class="landing-hero-gradient">clarity, focus</span>
+                        and execution.
+                    </h1>
+                    <p class="landing-hero-subtitle">
+                        Plan sprints, manage projects, and track every task in one flexible
+                        workspace inspired by the best of monday.com.
+                    </p>
+
+                    <div class="landing-cta-wrapper">
+                        <div class="landing-cta">
+                            <div class="landing-input-shell">
+                                <i class="fas fa-envelope"></i>
+                                <input type="text" class="landing-input" placeholder="Enter work email" />
+                            </div>
+                            <button class="btn btn-premium landing-cta-button" type="button">
+                                Get started free
+                            </button>
+                        </div>
+                        <p class="landing-cta-note">
+                            No credit card required · Set up in minutes
+                        </p>
+                    </div>
+
+                    <div class="landing-trust">
+                        <p class="landing-trust-label">Trusted by product, ops, and marketing teams</p>
+                        <div class="landing-trust-logos">
+                            <span>▲ NovaLabs</span>
+                            <span>Orbitly</span>
+                            <span>Brightline</span>
+                            <span>Hyperlane</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="landing-board-card">
+                        <div class="landing-board-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="landing-board-label">Sprint board</div>
+                                <div class="landing-board-title">Aurora Web Platform</div>
+                            </div>
+                            <div class="landing-board-avatars">
+                                <div class="landing-avatar">JP</div>
+                                <div class="landing-avatar">MS</div>
+                                <div class="landing-avatar">AR</div>
+                            </div>
+                        </div>
+
+                        <div class="landing-board-tabs">
+                            <button class="landing-tab active" type="button">
+                                <i class="fas fa-table me-2"></i>Table
+                            </button>
+                            <button class="landing-tab" type="button">
+                                <i class="fas fa-chart-line me-2"></i>Timeline
+                            </button>
+                            <button class="landing-tab" type="button">
+                                <i class="fas fa-calendar-week me-2"></i>Calendar
+                            </button>
+                        </div>
+
+                        <div class="landing-board-table">
+                            <div class="landing-board-row landing-board-row--header">
+                                <div>Item</div>
+                                <div>Owner</div>
+                                <div>Status</div>
+                                <div>Priority</div>
+                                <div>Due</div>
+                            </div>
+                            <div class="landing-board-row">
+                                <div>Onboarding walkthrough</div>
+                                <div><span class="landing-chip-avatar">JP</span></div>
+                                <div><span class="landing-status status-working">Working on it</span></div>
+                                <div><span class="landing-pill-priority priority-high">High</span></div>
+                                <div>Mar 28</div>
+                            </div>
+                            <div class="landing-board-row">
+                                <div>Dashboard layout polish</div>
+                                <div><span class="landing-chip-avatar">MS</span></div>
+                                <div><span class="landing-status status-done">Done</span></div>
+                                <div><span class="landing-pill-priority priority-medium">Medium</span></div>
+                                <div>Mar 22</div>
+                            </div>
+                            <div class="landing-board-row">
+                                <div>Billing page revamp</div>
+                                <div><span class="landing-chip-avatar">AR</span></div>
+                                <div><span class="landing-status status-stuck">Stuck</span></div>
+                                <div><span class="landing-pill-priority priority-low">Low</span></div>
+                                <div>Apr 2</div>
+                            </div>
+                        </div>
+
+                        <div class="landing-board-footer">
+                            <span><i class="fas fa-plus-circle me-2"></i>Add new item</span>
+                            <span>Automations · Dashboards · Docs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="product" class="landing-section">
+            <div class="container">
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-4">
+                        <h2 class="landing-section-title">Build any workflow in minutes.</h2>
+                        <p class="landing-section-subtitle">
+                            Use flexible boards to manage sprints, content calendars, sales pipelines,
+                            or recruiting funnels—no templates required.
+                        </p>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="landing-feature-card">
+                                    <div class="landing-feature-icon bg-soft-blue">
+                                        <i class="fas fa-layer-group"></i>
+                                    </div>
+                                    <h3>Boards</h3>
+                                    <p>Visual tables with fully customizable columns, groups, and views.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="landing-feature-card">
+                                    <div class="landing-feature-icon bg-soft-green">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                    <h3>Automations</h3>
+                                    <p>Turn repetitive updates into rules that run in the background.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="landing-feature-card">
+                                    <div class="landing-feature-icon bg-soft-purple">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                    <h3>Dashboards</h3>
+                                    <p>See workload, timelines, and progress across every board at once.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflow" class="landing-section landing-section-alt">
+            <div class="container">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <h2 class="landing-section-title">One place for every team.</h2>
+                        <p class="landing-section-subtitle">
+                            Product, marketing, operations, and leadership can finally work from the same
+                            source of truth. Swap spreadsheets for a live, visual workspace.
+                        </p>
+
+                        <ul class="landing-bullet-list">
+                            <li><i class="fas fa-check-circle"></i> Kanban, table, calendar, and timeline views</li>
+                            <li><i class="fas fa-check-circle"></i> Status, owner, and priority columns out of the box
+                            </li>
+                            <li><i class="fas fa-check-circle"></i> Keep everyone aligned with a single shared roadmap
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="landing-mini-metrics">
+                            <div class="landing-metric">
+                                <div class="label">Time to onboard</div>
+                                <div class="value">↓ 45%</div>
+                                <div class="hint">Teams get set up faster</div>
+                            </div>
+                            <div class="landing-metric">
+                                <div class="label">Projects delivered</div>
+                                <div class="value">+32%</div>
+                                <div class="hint">When work lives in Aurora</div>
+                            </div>
+                            <div class="landing-metric">
+                                <div class="label">Weekly status updates</div>
+                                <div class="value">1 place</div>
+                                <div class="hint">Instead of scattered docs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="landing-section">
+            <div class="container text-center">
+                <h2 class="landing-section-title mb-3">Start free. Scale with your team.</h2>
+                <p class="landing-section-subtitle mb-4">
+                    Try Aurora with your team for free. When you are ready, upgrade to unlock
+                    advanced permissions, automations and more.
+                </p>
+                <div class="landing-pricing-pill">
+                    <span class="active">Free trial</span>
+                    <span>Pro</span>
+                    <span>Enterprise</span>
+                </div>
+                <div class="landing-pricing-note">
+                    Aurora is inspired by tools like monday.com, built for teams who want clarity without complexity.
+                </div>
+                <div class="mt-4">
+                    <% if (!user) {%>
+                        <a href="/register" class="btn btn-premium btn-lg">Create your workspace</a>
+                        <% } else { %>
+                            <a href="/dashboard" class="btn btn-premium btn-lg">Continue your workspace</a>
+                            <% } %>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="landing-footer">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <span class="landing-footer-brand">Aurora</span>
+            <span class="landing-footer-text">A modern work management platform, inspired by the best of
+                monday.com.</span>
+            <span class="landing-footer-links">
+                <a href="/login">Log in</a>
+                <span>·</span>
+                <a href="/register">Get started</a>
+            </span>
+        </div>
+    </footer>
+    <script src="/aurora-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
