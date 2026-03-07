@@ -1,15 +1,27 @@
 <% layout('layout/boilerplate') %>
-
+    <div class="global-loader" id="global-loader">
+        <div class="global-loader-inner">
+            <div class="global-loader-logo">
+                <i class="fas fa-rocket me-2"></i>
+                <span>Aurora</span>
+            </div>
+            <div class="global-loader-spinner"></div>
+            <p class="global-loader-text">Loading your workspace...</p>
+        </div>
+    </div>
     <div class="container-fluid p-0">
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h1 class="fw-bold mb-1">Tasks board</h1>
                 <p class="text-secondary">Manage and track your team's tasks here.</p>
             </div>
+
             <div class="d-flex gap-2">
                 <button class="btn btn-outline-secondary border-0" style="color: var(--text-secondary);">
                     <i class="fas fa-filter me-2"></i>Filter
                 </button>
+
                 <a href="/tasks/new"
                     class="btn-premium text-decoration-none d-flex align-items-center justify-content-center">
                     <i class="fas fa-plus me-2"></i>New Task
@@ -20,178 +32,268 @@
 
         <div class="row g-4 overflow-auto pb-4" style="flex-wrap: nowrap; min-height: 70vh;">
 
-            <div class="col-md-3" style="min-width: 300px;">
+
+            <!-- ===================== TODO ===================== -->
+
+            <div class="col-md-3" style="min-width:300px;">
                 <div class="glass-card p-3 h-100">
+
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-info small"></i>To Do</h6>
+                        <h6 class="fw-bold m-0">
+                            <i class="fas fa-circle me-2 text-info small"></i>To Do
+                        </h6>
+
                         <span class="badge bg-secondary bg-opacity-25 text-secondary">
                             <%= todoTasks.length %>
                         </span>
                     </div>
+
                     <div class="d-flex flex-column gap-3">
-                        <% for (var i=0; i < todoTasks.length; i++) { var task=todoTasks[i]; %>
-                            <div class="bg-main p-3 rounded border border-color" style="background: var(--bg-main);">
-                                <% if (task.category) { %>
-                                    <div
-                                        class="badge bg-<%= getCategoryColor(task.category) %> bg-opacity-10 text-<%= getCategoryColor(task.category) %> small mb-2">
-                                        <%= task.category %>
+
+                        <% for(let task of todoTasks){ %>
+
+                            <a href="/tasks/<%= task.id %>" class="text-decoration-none">
+                                <div class="bg-main p-3 rounded border border-color task-card">
+
+                                    <% if(task.category){ %>
+                                        <div
+                                            class="badge bg-<%= getCategoryColor(task.category) %> bg-opacity-10 text-<%= getCategoryColor(task.category) %> small mb-2">
+                                            <%= task.category %>
+                                        </div>
+                                        <% } %>
+
+                                            <div class="fw-bold small mb-2">
+                                                <%= task.title %>
+                                            </div>
+
+                                            <% if(task.description){ %>
+                                                <div class="text-muted smaller mb-3">
+                                                    <%= task.description %>
+                                                </div>
+                                                <% } %>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+
+                                                        <div
+                                                            class="badge bg-<%= getPriorityColor(task.priority) %> bg-opacity-10 text-<%= getPriorityColor(task.priority) %> smaller">
+                                                            <%= task.priority %>
+                                                        </div>
+
+                                                        <% if(task.due_date){ %>
+                                                            <div class="text-muted smaller">
+                                                                <i class="far fa-calendar me-1"></i>
+                                                                <%= formatDate(task.due_date) %>
+                                                            </div>
+                                                            <% } %>
+
+                                                    </div>
+                                </div>
+                            </a>
+
+                            <% } %>
+
+                                <% if(todoTasks.length===0){ %>
+                                    <div class="text-center text-muted smaller py-4 opacity-50">
+                                        No tasks yet
                                     </div>
                                     <% } %>
-                                        <div class="fw-bold small mb-2">
-                                            <%= task.title %>
-                                        </div>
-                                        <% if (task.description) { %>
-                                            <div class="text-muted smaller mb-3">
-                                                <%= task.description %>
-                                            </div>
-                                            <% } %>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div
-                                                        class="badge bg-<%= getPriorityColor(task.priority) %> bg-opacity-10 text-<%= getPriorityColor(task.priority) %> smaller">
-                                                        <%= task.priority %>
-                                                    </div>
-                                                    <% if (task.due_date) { %>
-                                                        <div class="text-muted smaller"><i
-                                                                class="far fa-calendar me-1"></i>
-                                                            <%= formatDate(task.due_date) %>
-                                                        </div>
-                                                        <% } %>
-                                                </div>
-                            </div>
-                            <% } %>
-                                <% if (todoTasks.length===0) { %>
-                                    <div class="text-center text-muted smaller py-4 opacity-50">No tasks yet</div>
-                                    <% } %>
+
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3" style="min-width: 300px;">
+
+            <!-- ===================== IN PROGRESS ===================== -->
+
+            <div class="col-md-3" style="min-width:300px;">
                 <div class="glass-card p-3 h-100">
+
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-warning small"></i>In Progress
+                        <h6 class="fw-bold m-0">
+                            <i class="fas fa-circle me-2 text-warning small"></i>In Progress
                         </h6>
+
                         <span class="badge bg-secondary bg-opacity-25 text-secondary">
                             <%= inProgressTasks.length %>
                         </span>
                     </div>
+
                     <div class="d-flex flex-column gap-3">
-                        <% for (var i=0; i < inProgressTasks.length; i++) { var task=inProgressTasks[i]; %>
-                            <div class="bg-main p-3 rounded border border-color" style="background: var(--bg-main);">
-                                <% if (task.category) { %>
-                                    <div
-                                        class="badge bg-<%= getCategoryColor(task.category) %> bg-opacity-10 text-<%= getCategoryColor(task.category) %> small mb-2">
-                                        <%= task.category %>
+
+                        <% for(let task of inProgressTasks){ %>
+
+                            <a href="/tasks/<%= task.id %>" class="text-decoration-none">
+                                <div class="bg-main p-3 rounded border border-color task-card">
+
+                                    <% if(task.category){ %>
+                                        <div
+                                            class="badge bg-<%= getCategoryColor(task.category) %> bg-opacity-10 text-<%= getCategoryColor(task.category) %> small mb-2">
+                                            <%= task.category %>
+                                        </div>
+                                        <% } %>
+
+                                            <div class="fw-bold small mb-2">
+                                                <%= task.title %>
+                                            </div>
+
+                                            <% if(task.description){ %>
+                                                <div class="text-muted smaller mb-3">
+                                                    <%= task.description %>
+                                                </div>
+                                                <% } %>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+
+                                                        <div
+                                                            class="badge bg-<%= getPriorityColor(task.priority) %> bg-opacity-10 text-<%= getPriorityColor(task.priority) %> smaller">
+                                                            <%= task.priority %>
+                                                        </div>
+
+                                                        <% if(task.due_date){ %>
+                                                            <div class="text-muted smaller">
+                                                                <i class="far fa-calendar me-1"></i>
+                                                                <%= formatDate(task.due_date) %>
+                                                            </div>
+                                                            <% } %>
+
+                                                    </div>
+                                </div>
+                            </a>
+
+                            <% } %>
+
+                                <% if(inProgressTasks.length===0){ %>
+                                    <div class="text-center text-muted smaller py-4 opacity-50">
+                                        No tasks yet
                                     </div>
                                     <% } %>
-                                        <div class="fw-bold small mb-2">
-                                            <%= task.title %>
-                                        </div>
-                                        <% if (task.description) { %>
-                                            <div class="text-muted smaller mb-3">
-                                                <%= task.description %>
-                                            </div>
-                                            <% } %>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div
-                                                        class="badge bg-<%= getPriorityColor(task.priority) %> bg-opacity-10 text-<%= getPriorityColor(task.priority) %> smaller">
-                                                        <%= task.priority %>
-                                                    </div>
-                                                    <% if (task.due_date) { %>
-                                                        <div class="text-muted smaller"><i
-                                                                class="far fa-calendar me-1"></i>
-                                                            <%= formatDate(task.due_date) %>
-                                                        </div>
-                                                        <% } %>
-                                                </div>
-                            </div>
-                            <% } %>
-                                <% if (inProgressTasks.length===0) { %>
-                                    <div class="text-center text-muted smaller py-4 opacity-50">No tasks yet</div>
-                                    <% } %>
+
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3" style="min-width: 300px;">
+
+            <!-- ===================== REVIEW ===================== -->
+
+            <div class="col-md-3" style="min-width:300px;">
                 <div class="glass-card p-3 h-100">
+
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-primary small"></i>Review</h6>
+                        <h6 class="fw-bold m-0">
+                            <i class="fas fa-circle me-2 text-primary small"></i>Review
+                        </h6>
+
                         <span class="badge bg-secondary bg-opacity-25 text-secondary">
                             <%= reviewTasks.length %>
                         </span>
                     </div>
+
                     <div class="d-flex flex-column gap-3">
-                        <% for (var i=0; i < reviewTasks.length; i++) { var task=reviewTasks[i]; %>
-                            <div class="bg-main p-3 rounded border border-color" style="background: var(--bg-main);">
-                                <% if (task.category) { %>
-                                    <div
-                                        class="badge bg-<%= getCategoryColor(task.category) %> bg-opacity-10 text-<%= getCategoryColor(task.category) %> small mb-2">
-                                        <%= task.category %>
+
+                        <% for(let task of reviewTasks){ %>
+
+                            <a href="/tasks/<%= task.id %>" class="text-decoration-none">
+                                <div class="bg-main p-3 rounded border border-color task-card">
+
+                                    <% if(task.category){ %>
+                                        <div
+                                            class="badge bg-<%= getCategoryColor(task.category) %> bg-opacity-10 text-<%= getCategoryColor(task.category) %> small mb-2">
+                                            <%= task.category %>
+                                        </div>
+                                        <% } %>
+
+                                            <div class="fw-bold small mb-2">
+                                                <%= task.title %>
+                                            </div>
+
+                                            <% if(task.description){ %>
+                                                <div class="text-muted smaller mb-3">
+                                                    <%= task.description %>
+                                                </div>
+                                                <% } %>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+
+                                                        <div
+                                                            class="badge bg-<%= getPriorityColor(task.priority) %> bg-opacity-10 text-<%= getPriorityColor(task.priority) %> smaller">
+                                                            <%= task.priority %>
+                                                        </div>
+
+                                                        <% if(task.due_date){ %>
+                                                            <div class="text-muted smaller">
+                                                                <i class="far fa-calendar me-1"></i>
+                                                                <%= formatDate(task.due_date) %>
+                                                            </div>
+                                                            <% } %>
+
+                                                    </div>
+                                </div>
+                            </a>
+
+                            <% } %>
+
+                                <% if(reviewTasks.length===0){ %>
+                                    <div class="text-center text-muted smaller py-4 opacity-50">
+                                        No tasks yet
                                     </div>
                                     <% } %>
-                                        <div class="fw-bold small mb-2">
-                                            <%= task.title %>
-                                        </div>
-                                        <% if (task.description) { %>
-                                            <div class="text-muted smaller mb-3">
-                                                <%= task.description %>
-                                            </div>
-                                            <% } %>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div
-                                                        class="badge bg-<%= getPriorityColor(task.priority) %> bg-opacity-10 text-<%= getPriorityColor(task.priority) %> smaller">
-                                                        <%= task.priority %>
-                                                    </div>
-                                                    <% if (task.due_date) { %>
-                                                        <div class="text-muted smaller"><i
-                                                                class="far fa-calendar me-1"></i>
-                                                            <%= formatDate(task.due_date) %>
-                                                        </div>
-                                                        <% } %>
-                                                </div>
-                            </div>
-                            <% } %>
-                                <% if (reviewTasks.length===0) { %>
-                                    <div class="text-center text-muted smaller py-4 opacity-50">No tasks yet</div>
-                                    <% } %>
+
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3" style="min-width: 300px;">
+
+            <!-- ===================== DONE ===================== -->
+
+            <div class="col-md-3" style="min-width:300px;">
                 <div class="glass-card p-3 h-100">
+
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="fw-bold m-0"><i class="fas fa-circle me-2 text-success small"></i>Done</h6>
+                        <h6 class="fw-bold m-0">
+                            <i class="fas fa-circle me-2 text-success small"></i>Done
+                        </h6>
+
                         <span class="badge bg-secondary bg-opacity-25 text-secondary">
                             <%= doneTasks.length %>
                         </span>
                     </div>
+
                     <div class="d-flex flex-column gap-3">
-                        <% for (var i=0; i < doneTasks.length; i++) { var task=doneTasks[i]; %>
-                            <div class="bg-main p-3 rounded border border-color opacity-75"
-                                style="background: var(--bg-main);">
-                                <% if (task.category) { %>
-                                    <div class="badge bg-success bg-opacity-10 text-success small mb-2">
-                                        <%= task.category %>
-                                    </div>
-                                    <% } %>
-                                        <div class="fw-bold small mb-2">
-                                            <%= task.title %>
+
+                        <% for(let task of doneTasks){ %>
+
+                            <a href="/tasks/<%= task.id %>" class="text-decoration-none">
+                                <div class="bg-main p-3 rounded border border-color opacity-75 task-card">
+
+                                    <% if(task.category){ %>
+                                        <div class="badge bg-success bg-opacity-10 text-success small mb-2">
+                                            <%= task.category %>
                                         </div>
-                                        <% if (task.description) { %>
-                                            <div class="text-muted smaller">
-                                                <%= task.description %>
+                                        <% } %>
+
+                                            <div class="fw-bold small mb-2">
+                                                <%= task.title %>
                                             </div>
-                                            <% } %>
-                            </div>
+
+                                            <% if(task.description){ %>
+                                                <div class="text-muted smaller">
+                                                    <%= task.description %>
+                                                </div>
+                                                <% } %>
+
+                                </div>
+                            </a>
+
                             <% } %>
-                                <% if (doneTasks.length===0) { %>
-                                    <div class="text-center text-muted smaller py-4 opacity-50">No tasks yet</div>
+
+                                <% if(doneTasks.length===0){ %>
+                                    <div class="text-center text-muted smaller py-4 opacity-50">
+                                        No tasks yet
+                                    </div>
                                     <% } %>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+    <script src="/aurora-ui.js"></script>

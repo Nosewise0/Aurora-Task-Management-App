@@ -1,5 +1,14 @@
 <% layout('layout/boilerplate') %>
-
+<div class="global-loader" id="global-loader">
+        <div class="global-loader-inner">
+            <div class="global-loader-logo">
+                <i class="fas fa-rocket me-2"></i>
+                <span>Aurora</span>
+            </div>
+            <div class="global-loader-spinner"></div>
+            <p class="global-loader-text">Loading your workspace...</p>
+        </div>
+    </div>
     <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 4rem);">
         <div class="glass-card" style="width: 100%; max-width: 450px;">
             <div class="text-center mb-4">
@@ -33,3 +42,4 @@
             </form>
         </div>
     </div>
+    <script src="/aurora-ui.js"></script>
