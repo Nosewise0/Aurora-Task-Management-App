@@ -69,7 +69,7 @@ router.post("/login", async (req, res) => {
       sameSite: "Strict",
       maxAge: 3600000, // 1 HR EXPIRATION
     });
-    res.redirect("/");
+    res.redirect("/dashboard");
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "server error" });

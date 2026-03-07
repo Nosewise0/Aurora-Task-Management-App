@@ -47,7 +47,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', isLoggedIn, (req, res) => {
+app.get('/home', (req, res)=> {
+  res.render('frontPage')
+})
+
+app.get('/dashboard', isLoggedIn, (req, res) => {
   res.render('dashboard')
 })
 
