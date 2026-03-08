@@ -16,6 +16,8 @@ const tasksRoutes = require('./router/taskRoutes')
 const projectRoutes = require('./router/projectRoutes')
 const teamRoutes = require('./router/teamRoutes')
 const { isLoggedIn } = require('./middleware/auth')
+const dashboardRoutes = require('./router/dashboardRoutes')
+const notificationRoutes = require('./router/notificationRoutes')
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -55,16 +57,16 @@ app.get('/home', (req, res) => {
   res.render('frontPage');
 });
 
-app.get('/dashboard', isLoggedIn, (req, res) => {
-  res.render('dashboard')
-})
 
+
+app.use('/dashboard', isLoggedIn, dashboardRoutes)
 app.use('/', authRoutes)
 app.use('/tasks', isLoggedIn, tasksRoutes)
 app.use('/projects', isLoggedIn, projectRoutes)
 app.use('/team', isLoggedIn, teamRoutes)
 app.use('/calendar', isLoggedIn, calendarRoutes)
 app.use('/settings', isLoggedIn, settingsRoutes)
+app.use('/notifications', isLoggedIn, notificationRoutes)
 
 app.get("/logout", (req, res) => {
   res.clearCookie("token", {

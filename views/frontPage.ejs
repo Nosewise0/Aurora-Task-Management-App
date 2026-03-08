@@ -279,11 +279,17 @@
             <span class="landing-footer-brand">Aurora</span>
             <span class="landing-footer-text">A modern work management platform, inspired by the best of
                 monday.com.</span>
+               
             <span class="landing-footer-links">
+                 <% if (!user) {%>
                 <a href="/login">Log in</a>
                 <span>·</span>
                 <a href="/register">Get started</a>
+                <% } else { %>
+                <a href="/dashboard">Go to Account</a>
+                <% } %>
             </span>
+            
         </div>
     </footer>
     <script src="/aurora-ui.js"></script>
