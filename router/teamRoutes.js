@@ -18,7 +18,6 @@ router.get("/", isLoggedIn, async (req, res) => {
   }
 });
 
-
 router.get("/invite", isLoggedIn, async (req, res) => {
   res.render("invitemember");
 });

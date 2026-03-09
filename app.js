@@ -63,9 +63,9 @@ app.use('/dashboard', isLoggedIn, dashboardRoutes)
 app.use('/', authRoutes)
 app.use('/tasks', isLoggedIn, tasksRoutes)
 app.use('/projects', isLoggedIn, projectRoutes)
-app.use('/team', isLoggedIn, teamRoutes)
+// app.use('/team', isLoggedIn, teamRoutes)
 app.use('/calendar', isLoggedIn, calendarRoutes)
-app.use('/settings', isLoggedIn, settingsRoutes)
+// app.use('/settings', isLoggedIn, settingsRoutes)
 app.use('/notifications', isLoggedIn, notificationRoutes)
 
 app.get("/logout", (req, res) => {

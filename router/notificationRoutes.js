@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require('../config/database')
 const { isLoggedIn } = require('../middleware/auth')
 
-
 router.get("/", isLoggedIn, async (req, res) => {
   try {
 
