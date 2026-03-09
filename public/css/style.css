@@ -1166,3 +1166,18 @@ body.theme-dark {
     gap: 0.4rem;
   }
 }
+
+.notif-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #ef4444; /* red */
+  border-radius: 999px;
+  margin-left: 6px;
+}

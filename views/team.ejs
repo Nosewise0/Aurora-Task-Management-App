@@ -27,63 +27,76 @@
                         </tr>
                     </thead>
                     <tbody class="border-top-0">
-                        <tr class="align-middle">
-                            <td class="px-4 py-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-primary p-2 me-3"
-                                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                        JD</div>
-                                    <div class="fw-bold">John Doe</div>
-                                </div>
-                            </td>
-                            <td>Senior Developer</td>
-                            <td><span
-                                    class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Online</span>
-                            </td>
-                            <td class="text-secondary">john@aurora.io</td>
-                            <td>
-                                <div class="text-secondary small">Last active 5m ago</div>
-                            </td>
-                            <td class="px-4 text-end"><i class="fas fa-ellipsis-h text-muted cursor-pointer"></i></td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="px-4 py-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-info p-2 me-3"
-                                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                        AS</div>
-                                    <div class="fw-bold">Alice Smith</div>
-                                </div>
-                            </td>
-                            <td>UX Designer</td>
-                            <td><span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">In
-                                    Meeting</span></td>
-                            <td class="text-secondary">alice@aurora.io</td>
-                            <td>
-                                <div class="text-secondary small">Last active 2h ago</div>
-                            </td>
-                            <td class="px-4 text-end"><i class="fas fa-ellipsis-h text-muted cursor-pointer"></i></td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="px-4 py-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-warning p-2 me-3"
-                                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                        BK</div>
-                                    <div class="fw-bold">Bob Knight</div>
-                                </div>
-                            </td>
-                            <td>Project Manager</td>
-                            <td><span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">Away</span>
-                            </td>
-                            <td class="text-secondary">bob@aurora.io</td>
-                            <td>
-                                <div class="text-secondary small">Last active Yesterday</div>
-                            </td>
-                            <td class="px-4 text-end"><i class="fas fa-ellipsis-h text-muted cursor-pointer"></i></td>
-                        </tr>
+                        <% if (invites && invites.length) { %>
+                            <% invites.forEach(invite=> { %>
+                                <tr class="align-middle">
+                                    <td class="px-4 py-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="rounded-circle bg-primary p-2 me-3"
+                                                style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                                <%= invite.email.split('@')[0].slice(0,2).toUpperCase() %>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <%= invite.email.split('@')[0] %>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <%= invite.role %>
+                                    </td>
+                                    <td>
+                                        <% if (invite.status==='pending' ) { %>
+                                            <span
+                                                class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">Pending</span>
+                                            <% } else if (invite.status==='accepted' ) { %>
+                                                <span
+                                                    class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Accepted</span>
+                                                <% } else if (invite.status==='read' ) { %>
+                                                    <span
+                                                        class="badge bg-info bg-opacity-10 text-info rounded-pill px-3">Read</span>
+                                                    <% } %>
+                                    </td>
+                                    <td class="text-secondary">
+                                        <%= invite.email %>
+                                    </td>
+                                    <td>
+                                        <div class="text-secondary small">
+                                            Invited at <%= new Date(invite.invited_at).toLocaleString() %>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 text-end">
+                                        <% if (invite.status==='pending' ) { %>
+                                            <a href="/notifications/accept/<%= invite.token %>"
+                                                class="btn btn-sm btn-success me-2">Accept</a>
+                                            <button class="btn btn-sm btn-danger"onclick="deleteInvite(<%= invite.id %>)">Reject</button>
+                                            <% } %>
+                                                <i class="fas fa-ellipsis-h text-muted cursor-pointer ms-2"></i>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="6" class="text-center text-secondary py-4">No team members yet.
+                                            </td>
+                                        </tr>
+                                        <% } %>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <script>
+        async function deleteInvite(id) {
+            if (!confirm("Are you sure you want to delete this invitation?")) return;
+            try {
+                const res = await fetch(`/team/${id}`, { method: "DELETE" });
+                const data = await res.json();
+                if (data.success) location.reload();
+                else alert("Failed to delete invite");
+            } catch (err) {
+                console.error(err);
+                alert("Error deleting invite");
+            }
+        }
+    </script>
