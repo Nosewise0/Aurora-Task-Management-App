@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../config/database");
-const { use } = require("passport");
 
 function isLoggedIn(req, res, next) {
     if (!req.user) {
