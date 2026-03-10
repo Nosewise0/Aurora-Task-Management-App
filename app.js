@@ -10,14 +10,10 @@ const path = require("path");
 const methodOverride = require("method-override");
 
 const authRoutes = require('./router/authRoutes')
-const settingsRoutes = require('./router/settingsRoutes')
-const calendarRoutes = require('./router/callendarRoutes')
 const tasksRoutes = require('./router/taskRoutes')
 const projectRoutes = require('./router/projectRoutes')
-const teamRoutes = require('./router/teamRoutes')
 const { isLoggedIn } = require('./middleware/auth')
 const dashboardRoutes = require('./router/dashboardRoutes')
-const notificationRoutes = require('./router/notificationRoutes')
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -63,10 +59,6 @@ app.use('/dashboard', isLoggedIn, dashboardRoutes)
 app.use('/', authRoutes)
 app.use('/tasks', isLoggedIn, tasksRoutes)
 app.use('/projects', isLoggedIn, projectRoutes)
-// app.use('/team', isLoggedIn, teamRoutes)
-app.use('/calendar', isLoggedIn, calendarRoutes)
-// app.use('/settings', isLoggedIn, settingsRoutes)
-app.use('/notifications', isLoggedIn, notificationRoutes)
 
 app.get("/logout", (req, res) => {
   res.clearCookie("token", {

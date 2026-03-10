@@ -1,129 +1,112 @@
 <% layout('layout/boilerplate') %>
 
-    <div class="container-fluid p-0">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <% if (user) { %>
-                    <h1 class="fw-bold mb-1">Dashboard</h1>
-                    <p class="text-secondary">
-                        Welcome back <%= user.name %>, here's what's happening today.
-                    </p>
+<div class="container-fluid p-0">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <% if (user) { %>
+                <h1 class="fw-bold mb-1">Dashboard</h1>
+                <p class="text-secondary">
+                    Welcome back <%= user.name %>, here's what's happening today.
+                </p>
+            <% } %>
+        </div>
+        <div>
+            <a href="/tasks/new" class="btn-premium text-decoration-none d-flex align-items-center justify-content-center">
+                <i class="fas fa-plus me-2"></i>New Task
+            </a>
+        </div>
+    </div>
+
+    <!-- Task Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="glass-card">
+                <div class="text-secondary small mb-1">Total Tasks</div>
+                <div class="h3 fw-bold mb-0"><%= totalTasks %></div>
+                <div class="text-success small mt-2">
+                    <i class="fas fa-arrow-up me-1"></i> 
+                    <% /* Optional: calculate increase dynamically */ %>
+                    <%= totalTasks ? Math.floor(totalTasks * 0.12) + "% increase" : "" %>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card">
+                <div class="text-secondary small mb-1">In Progress</div>
+                <div class="h3 fw-bold mb-0"><%= inProgress %></div>
+                <div class="text-primary small mt-2">
+                    <i class="fas fa-clock me-1"></i> 
+                    <% /* Optional: show due today dynamically if available */ %>
+                    <% /* 4 Due today */ %>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="glass-card">
+                <div class="text-secondary small mb-1">Completed</div>
+                <div class="h3 fw-bold mb-0"><%= completed %></div>
+                <div class="text-success small mt-2">
+                    <i class="fas fa-check-circle me-1"></i> 
+                    <% if(totalTasks) { %>
+                        <%= Math.floor((completed / totalTasks) * 100) %>% Completed
                     <% } %>
-            </div>
-            <div>
-                <a href="/tasks/new"
-                    class="btn-premium text-decoration-none d-flex align-items-center justify-content-center">
-                    <i class="fas fa-plus me-2"></i>New Task
-                </a>
-            </div>
-        </div>
-
-        <!-- Task Stats -->
-        <div class="row g-4 mb-5">
-            <div class="col-md-3">
-                <div class="glass-card">
-                    <div class="text-secondary small mb-1">Total Tasks</div>
-                    <div class="h3 fw-bold mb-0">
-                        <%= totalTasks %>
-                    </div>
-                    <div class="text-success small mt-2">
-                        <i class="fas fa-arrow-up me-1"></i>
-                        <% /* Optional: calculate increase dynamically */ %>
-                            <%= totalTasks ? Math.floor(totalTasks * 0.12) + "% increase" : "" %>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="glass-card">
-                    <div class="text-secondary small mb-1">In Progress</div>
-                    <div class="h3 fw-bold mb-0">
-                        <%= inProgress %>
-                    </div>
-                    <div class="text-primary small mt-2">
-                        <i class="fas fa-clock me-1"></i>
-                        <% /* Optional: show due today dynamically if available */ %>
-                            <% /* 4 Due today */ %>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="glass-card">
-                    <div class="text-secondary small mb-1">Completed</div>
-                    <div class="h3 fw-bold mb-0">
-                        <%= completed %>
-                    </div>
-                    <div class="text-success small mt-2">
-                        <i class="fas fa-check-circle me-1"></i>
-                        <% if(totalTasks) { %>
-                            <%= Math.floor((completed / totalTasks) * 100) %>% Completed
-                                <% } %>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="glass-card">
-                    <div class="text-secondary small mb-1">Upcoming</div>
-                    <div class="h3 fw-bold mb-0">
-                        <%= upcoming %>
-                    </div>
-                    <div class="text-muted small mt-2">
-                        Next 7 days
-                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="glass-card">
+                <div class="text-secondary small mb-1">Upcoming</div>
+                <div class="h3 fw-bold mb-0"><%= upcoming %></div>
+                <div class="text-muted small mt-2">
+                    Next 7 days
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <!-- Recent Activity & Team Availability -->
-        <div class="row g-4">
-            <div class="col-md-8">
-                <div class="glass-card h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="fw-bold mb-0">Recent Activity</h5>
-                        <a href="#" class="text-decoration-none small" style="color: var(--accent-primary);">View
-                            All</a>
-                    </div>
-                    <div class="data-grid">
-                        <% recentTasks.forEach(task=> { %>
-                            <div class="grid-row">
-                                <div class="me-3 p-2 bg-primary bg-opacity-10 rounded text-primary">
-                                    <i class="fas fa-tasks"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-semibold">
-                                        <%= task.title %>
-                                    </div>
-                                    <div class="text-muted small">Updated <%= new Date(task.updated_at).toLocaleString()
-                                            %>
-                                    </div>
-                                </div>
-                                <div class="badge bg-secondary bg-opacity-25 text-secondary">
-                                    <%= task.category %>
-                                </div>
+    <!-- Recent Activity & Team Availability -->
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="glass-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">Recent Activity</h5>
+                    <a href="#" class="text-decoration-none small" style="color: var(--accent-primary);">View All</a>
+                </div>
+                <div class="data-grid">
+                    <% recentTasks.forEach(task => { %>
+                        <div class="grid-row">
+                            <div class="me-3 p-2 bg-primary bg-opacity-10 rounded text-primary">
+                                <i class="fas fa-tasks"></i>
                             </div>
-                            <% }) %>
-                    </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold"><%= task.title %></div>
+                                <div class="text-muted small">Updated <%= new Date(task.updated_at).toLocaleString() %></div>
+                            </div>
+                            <div class="badge bg-secondary bg-opacity-25 text-secondary"><%= task.category %></div>
+                        </div>
+                    <% }) %>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-4">
-                <div class="glass-card h-100">
-                    <h5 class="fw-bold mb-4">Team Availability</h5>
-                    <% teamMembers.forEach(member=> { %>
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="rounded-circle bg-secondary p-3 me-3">
-                                <%= member.username.split(' ').map(n => n.charAt(0)).join('').toUpperCase() %>
+        <div class="col-md-4">
+            <div class="glass-card h-100">
+                <h5 class="fw-bold mb-4">Team Availability</h5>
+                <% teamMembers.forEach(member => { %>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-secondary p-3 me-3">
+                            <%= member.username.split(' ').map(n => n.charAt(0)).join('').toUpperCase() %>
                         </div>
                         <div>
                             <div class="fw-bold"><%= member.username %></div>
-                            <div class="text-<%= member.status === ' Available' ? 'success' : member.status==='Away'
-                                    ? 'warning' : 'danger' %> small">
-                                    <%= member.status %>
+                            <div class="text-<%= member.status === 'Available' ? 'success' : member.status === 'Away' ? 'warning' : 'danger' %> small">
+                                <%= member.status %>
                             </div>
                         </div>
-                </div>
+                    </div>
                 <% }) %>
             </div>
         </div>
     </div>
-    </div>
+</div>
