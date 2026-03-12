@@ -1,0 +1,37 @@
+<% layout('layout/boilerplate') %>
+
+    <div class="container-fluid p-0">
+        <div class="mb-4">
+            <h1 class="fw-bold mb-1">Invite Team Member</h1>
+            <p class="text-secondary">Send an invitation to join your workspace.</p>
+        </div>
+
+        <div class="glass-card p-4">
+            <form action="/team/invite" method="POST">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role" required>
+                        <option value="member">Member</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="workspace" class="form-label">Workspace</label>
+                    <input type="text" class="form-control" id="workspace" name="workspace" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="note" class="form-label">Note (optional)</label>
+                    <textarea class="form-control" id="note" name="note" rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Send Invite</button>
+            </form>
+        </div>
+    </div>

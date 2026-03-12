@@ -1,0 +1,61 @@
+<% layout('layout/boilerplate') %>
+
+    <div class="container-fluid p-0">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">Calendar</h1>
+                <p class="text-secondary">Stay on top of your deadlines and meetings.</p>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-outline-secondary active">Month</button>
+                <button class="btn btn-outline-secondary">Week</button>
+                <button class="btn btn-outline-secondary">Day</button>
+            </div>
+        </div>
+
+        <div class="glass-card p-0">
+            <div
+                class="p-4 border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold m-0">March 2026</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-left"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="calendar-grid d-grid"
+                style="grid-template-columns: repeat(7, 1fr); background: var(--border-color); gap: 1px;">
+                <% ['Mon', 'Tue' , 'Wed' , 'Thu' , 'Fri' , 'Sat' , 'Sun' ].forEach(day=> { %>
+                    <div class="bg-card p-2 text-center text-secondary small fw-bold">
+                        <%= day %>
+                    </div>
+                    <% }) %>
+
+                        <% for(let i=0; i<31; i++) { %>
+                            <div class="bg-main p-3" style="min-height: 120px; transition: var(--transition);">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span class="small fw-bold <%= i+1 === 2 ? 'text-primary' : 'text-secondary' %>">
+                                        <%= i+1 %>
+                                    </span>
+                                    <% if(i+1===2) { %><span class="badge rounded-circle p-1 bg-primary"
+                                            style="width: 6px; height: 6px;"></span>
+                                        <% } %>
+                                </div>
+
+                                <% if(i+1===2) { %>
+                                    <div class="badge bg-primary bg-opacity-10 text-primary w-100 text-start text-truncate small mb-1"
+                                        style="font-size: 10px;">
+                                        <i class="fas fa-circle me-1 small"></i> Aurora Launch
+                                    </div>
+                                    <% } %>
+                                        <% if(i+1===5) { %>
+                                            <div class="badge bg-warning bg-opacity-10 text-warning w-100 text-start text-truncate small mb-1"
+                                                style="font-size: 10px;">
+                                                <i class="fas fa-circle me-1 small"></i> API Review
+                                            </div>
+                                            <% } %>
+                            </div>
+                            <% } %>
+            </div>
+        </div>
+    </div>
