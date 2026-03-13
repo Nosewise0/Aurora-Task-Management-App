@@ -10,12 +10,18 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get("/", isLoggedIn, async (req, res) => {
-  const user_id = req.user.id;
-
   try {
     const [projects] = await db.execute(
-      "SELECT * FROM projects WHERE user_id = ? ORDER BY created_at DESC",
-      [user_id],
+      `
+      SELECT DISTINCT p.*
+      FROM projects p
+      LEFT JOIN project_shares ps
+      ON p.id = ps.project_id
+      WHERE p.user_id = ?
+      OR ps.user_id = ?
+      ORDER BY p.created_at DESC
+      `,
+      [req.user.id, req.user.id],
     );
 
     res.render("projects", { projects });
@@ -32,6 +38,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.post("/new", isLoggedIn, async (req, res) => {
   let { title, description, status, start_date, end_date, due_days, tags } =
     req.body;
+
   const user_id = req.user.id;
 
   title = title || null;
@@ -68,17 +75,25 @@ router.post("/new", isLoggedIn, async (req, res) => {
 
 router.get("/:id", isLoggedIn, async (req, res) => {
   const projectId = req.params.id;
-  const user_id = req.user.id;
 
   try {
     const [rows] = await db.execute(
-      "SELECT * FROM projects WHERE id = ? AND user_id = ?",
-      [projectId, user_id],
+      `
+      SELECT p.*
+      FROM projects p
+      LEFT JOIN project_shares ps
+      ON p.id = ps.project_id
+      WHERE p.id = ?
+      AND (p.user_id = ? OR ps.user_id = ?)
+      `,
+      [projectId, req.user.id, req.user.id],
     );
 
-    if (rows.length === 0) return res.status(404).send("Project not found");
-    const project = rows[0];
-    res.render("project-details", { project });
+    if (!rows.length) {
+      return res.status(403).send("Access denied");
+    }
+
+    res.render("project-details", { project: rows[0] });
   } catch (e) {
     console.log(e);
     res.status(500).send("Database error");
@@ -87,17 +102,25 @@ router.get("/:id", isLoggedIn, async (req, res) => {
 
 router.get("/:id/edit", isLoggedIn, async (req, res) => {
   const projectId = req.params.id;
-  const user_id = req.user.id;
 
   try {
     const [rows] = await db.execute(
-      "SELECT * FROM projects WHERE id = ? AND user_id = ?",
-      [projectId, user_id],
+      `
+      SELECT p.*
+      FROM projects p
+      LEFT JOIN project_shares ps
+      ON p.id = ps.project_id
+      WHERE p.id = ?
+      AND (p.user_id = ? OR ps.user_id = ?)
+      `,
+      [projectId, req.user.id, req.user.id],
     );
 
-    if (rows.length === 0) return res.status(403).send("Access denied");
-    const project = rows[0];
-    res.render("project-edit", { project });
+    if (!rows.length) {
+      return res.status(403).send("Access denied");
+    }
+
+    res.render("project-edit", { project: rows[0] });
   } catch (e) {
     console.log(e);
     res.status(500).send("Database error");
@@ -106,13 +129,15 @@ router.get("/:id/edit", isLoggedIn, async (req, res) => {
 
 router.post("/:id/edit", isLoggedIn, async (req, res) => {
   const projectId = req.params.id;
-  const user_id = req.user.id;
+
   let { title, description, status, start_date, end_date, due_days, tags } =
     req.body;
 
   const validStatuses = ["active", "planning", "on-hold"];
-  status = status?.toLowerCase()?.trim();
-  status = validStatuses.includes(status) ? status : "planning";
+  status = status ? status.toLowerCase().trim() : "planning";
+  if (!validStatuses.includes(status)) {
+    status = "planning";
+  }
 
   title = title || null;
   description = description || null;
@@ -123,10 +148,26 @@ router.post("/:id/edit", isLoggedIn, async (req, res) => {
   tags = tags || null;
 
   try {
-    const [result] = await db.execute(
+    const [rows] = await db.execute(
+      `
+      SELECT p.*
+      FROM projects p
+      LEFT JOIN project_shares ps
+      ON p.id = ps.project_id
+      WHERE p.id = ?
+      AND (p.user_id = ? OR ps.user_id = ?)
+      `,
+      [projectId, req.user.id, req.user.id],
+    );
+
+    if (!rows.length) {
+      return res.status(403).send("Access denied");
+    }
+
+    await db.execute(
       `UPDATE projects
        SET title = ?, description = ?, status = ?, start_date = ?, end_date = ?, due_days = ?, tags = ?
-       WHERE id = ? AND user_id = ?`,
+       WHERE id = ?`,
       [
         title,
         description,
@@ -136,11 +177,9 @@ router.post("/:id/edit", isLoggedIn, async (req, res) => {
         due_days,
         tags,
         projectId,
-        user_id,
       ],
     );
 
-    if (result.affectedRows === 0) return res.status(403).send("Access denied");
     res.redirect(`/projects/${projectId}`);
   } catch (e) {
     console.log(e);
@@ -150,15 +189,26 @@ router.post("/:id/edit", isLoggedIn, async (req, res) => {
 
 router.get("/:id/delete", isLoggedIn, async (req, res) => {
   const projectId = req.params.id;
-  const user_id = req.user.id;
 
   try {
-    const [result] = await db.execute(
-      "DELETE FROM projects WHERE id = ? AND user_id = ?",
-      [projectId, user_id],
+    const [rows] = await db.execute(
+      `
+      SELECT p.*
+      FROM projects p
+      LEFT JOIN project_shares ps
+      ON p.id = ps.project_id
+      WHERE p.id = ?
+      AND p.user_id = ?
+      `,
+      [projectId, req.user.id],
     );
 
-    if (result.affectedRows === 0) return res.status(403).send("Access denied");
+    if (!rows.length) {
+      return res.status(403).send("Access denied");
+    }
+
+    await db.execute("DELETE FROM projects WHERE id = ?", [projectId]);
+
     res.redirect("/projects");
   } catch (e) {
     console.log(e);
@@ -170,73 +220,38 @@ router.get("/accept-invite/:token", isLoggedIn, async (req, res) => {
   try {
     const token = req.params.token;
 
-    const [invite] = await db.execute(
-      "SELECT * FROM invitations WHERE token = ?",
+    const [inviteRows] = await db.execute(
+      "SELECT * FROM invitations WHERE token = ? AND status = 'pending'",
       [token],
     );
 
-    if (!invite.length) {
+    if (!inviteRows.length) {
       return res.send("Invalid invite");
     }
 
-    const data = invite[0];
-
-    console.log(data); // debug
-
-    const project_id = data.project_id || null;
-    const user_id = req.user?.id || null;
-    const invited_by = data.invited_by || null;
+    const invite = inviteRows[0];
 
     await db.execute(
-      `INSERT INTO project_shares 
+      `INSERT IGNORE INTO project_shares 
        (project_id, user_id, role, invited_by)
        VALUES (?, ?, ?, ?)`,
-      [project_id, user_id, "viewer", invited_by],
+      [
+        invite.project_id,
+        req.user.id,
+        invite.role || "viewer",
+        invite.invited_by,
+      ],
     );
+
+    await db.execute("UPDATE invitations SET status='accepted' WHERE id=?", [
+      invite.id,
+    ]);
 
     res.redirect("/projects");
   } catch (e) {
     console.log(e);
     res.send("Error accepting invite");
   }
-});
-
-router.get("/", async (req, res) => {
-  const [projects] = await db.execute(
-    `
-    SELECT DISTINCT p.*
-    FROM projects p
-    LEFT JOIN project_shares ps
-    ON p.id = ps.project_id
-    WHERE p.owner_id = ?
-    OR ps.user_id = ?
-  `,
-    [req.user.id, req.user.id],
-  );
-
-  res.render("projects", { projects });
-});
-
-router.get("/:id", isLoggedIn, async (req, res) => {
-  const projectId = req.params.id;
-
-  const [rows] = await db.execute(
-    `
-    SELECT p.*
-    FROM projects p
-    LEFT JOIN project_shares ps
-    ON p.id = ps.project_id
-    WHERE p.id = ?
-    AND (p.user_id = ? OR ps.user_id = ?)
-    `,
-    [projectId, req.user.id, req.user.id],
-  );
-
-  if (!rows.length) {
-    return res.send("Access denied");
-  }
-
-  res.render("project-details", { projects: rows[0] });
 });
 
 module.exports = router;

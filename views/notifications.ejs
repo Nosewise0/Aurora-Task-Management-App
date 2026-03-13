@@ -23,10 +23,8 @@
                                     <%= n.body %>
                                 </div>
                                 <% if (n.type==='invite' && !n.read) { %>
-                                    <button class="btn btn-sm btn-success mt-2"onclick="acceptInvite('<%= n.token %>', <%= n.id %>)">
-                                        Accept
-                                    </button>
-                                    <a href="/projects/accept-invite/<%= n.token %>">Accept</a>
+                                    <a class="btn btn-sm btn-success mt-2"
+                                        href="/projects/accept-invite/<%= n.token %>">Accept</a>
                                     <% } %>
                             </div>
                             <div class="text-muted small text-end ms-3">

@@ -31,7 +31,15 @@ router.post("/invite", isLoggedIn, async (req, res) => {
       `INSERT INTO invitations
       (email, project_id, role, workspace, note, invited_by, token, status, invited_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NOW())`,
-      [email, project_id, role, workspace, note || null, invited_by, token],
+      [
+        email,
+        project_id || null,
+        role || null,
+        workspace || null,
+        note || null,
+        invited_by,
+        token,
+      ],
     );
 
     res.redirect("/team");
