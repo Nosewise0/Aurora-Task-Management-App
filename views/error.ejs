@@ -1,0 +1,55 @@
+<% layout('layout/boilerplate') %>
+
+    <div class="container-fluid p-0 d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+        <div class="text-center" style="max-width: 520px; width: 100%;">
+
+            <div class="glass-card p-5">
+                <div class="mb-4" style="font-size: 4rem; line-height: 1;">
+                    <% if (statusCode===403 || statusCode===401) { %>
+                        <i class="fas fa-shield-alt" style="color: var(--accent);"></i>
+                        <% } else if (statusCode===404) { %>
+                            <i class="fas fa-search" style="color: var(--accent);"></i>
+                            <% } else { %>
+                                <i class="fas fa-circle-exclamation" style="color: #dc3545;"></i>
+                                <% } %>
+                </div>
+
+                <div class="mb-1"
+                    style="font-size: 5rem; font-weight: 700; line-height: 1; color: var(--accent); opacity: 0.15;">
+                    <%= statusCode %>
+                </div>
+
+                <h2 class="fw-bold mb-2" style="color: var(--text-main);">
+                    <%= heading %>
+                </h2>
+
+                <p class="text-secondary mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                    <%= message %>
+                </p>
+
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="javascript:history.back()"
+                        class="btn btn-outline-secondary border-color px-4 py-2 d-flex align-items-center"
+                        style="color: var(--text-secondary);">
+                        <i class="fas fa-arrow-left me-2"></i>Go Back
+                    </a>
+                    <% if (statusCode===401 || statusCode===403) { %>
+                        <% if (statusCode===401) { %>
+                            <a href="/login" class="btn-premium px-5 py-2">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                            </a>
+                            <% } else { %>
+                                <a href="/dashboard" class="btn-premium px-5 py-2">
+                                    <i class="fas fa-home me-2"></i>Dashboard
+                                </a>
+                                <% } %>
+                                    <% } else { %>
+                                        <a href="/dashboard" class="btn-premium px-5 py-2">
+                                            <i class="fas fa-home me-2"></i>Dashboard
+                                        </a>
+                                        <% } %>
+                </div>
+            </div>
+
+        </div>
+    </div>

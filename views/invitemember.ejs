@@ -6,38 +6,87 @@
             <p class="text-secondary">Send an invitation to join your workspace.</p>
         </div>
 
-        <div class="glass-card p-4">
-            <form action="/team/invite" method="POST">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required />
-                </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="glass-card p-4">
+                    <form action="/team/invite" method="POST">
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-semibold" style="color: var(--text-main);">Email
+                                Address</label>
+                            <input type="email" name="email" id="email" class="form-control bg-main border-color p-3"
+                                placeholder="e.g., teammate@company.com"
+                                style="background: var(--bg-main) !important; color: var(--text-main);" required>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select class="form-select" id="role" name="role" required>
-                        <option value="member">Member</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="role" class="form-label fw-semibold"
+                                    style="color: var(--text-main);">Role</label>
+                                <select name="role" id="role" class="form-select bg-main border-color p-3"
+                                    style="background: var(--bg-main) !important; color: var(--text-main);" required>
+                                    <option value="member">Member</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
 
-                <div class="mb-3">
-                    <label for="project" class="form-label">Projects</label>
-                    <input type="number" class="form-control" id="project" name="project_id"
-                        placeholder="Enter project ID" min="1" required>
-                </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="project_id" class="form-label fw-semibold"
+                                    style="color: var(--text-main);">Project ID</label>
+                                <input type="number" name="project_id" id="project_id"
+                                    class="form-control bg-main border-color p-3" placeholder="e.g., 1"
+                                    style="background: var(--bg-main) !important; color: var(--text-main);" min="1">
+                            </div>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="workspace" class="form-label">Workspace</label>
-                    <input type="text" class="form-control" id="workspace" name="workspace" required />
-                </div>
+                        <div class="mb-4">
+                            <label for="workspace" class="form-label fw-semibold"
+                                style="color: var(--text-main);">Workspace</label>
+                            <input type="text" name="workspace" id="workspace"
+                                class="form-control bg-main border-color p-3" placeholder="e.g., Aurora HQ"
+                                style="background: var(--bg-main) !important; color: var(--text-main);" required>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="note" class="form-label">Note (optional)</label>
-                    <textarea class="form-control" id="note" name="note" rows="2"></textarea>
-                </div>
+                        <div class="mb-4">
+                            <label for="note" class="form-label fw-semibold" style="color: var(--text-main);">Note <span
+                                    class="text-secondary fw-normal">(optional)</span></label>
+                            <textarea name="note" id="note" rows="3" class="form-control bg-main border-color p-3"
+                                placeholder="Add a personal message..."
+                                style="background: var(--bg-main) !important; color: var(--text-main);"></textarea>
+                        </div>
 
-                <button type="submit" class="btn btn-primary">Send Invite</button>
-            </form>
+                        <div class="d-flex gap-3 mt-2">
+                            <button type="submit" class="btn-premium px-5 py-3">
+                                <i class="fas fa-paper-plane me-2"></i>Send Invite
+                            </button>
+                            <a href="/team"
+                                class="btn btn-outline-secondary border-color px-4 py-3 d-flex align-items-center"
+                                style="color: var(--text-secondary);">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="glass-card p-4">
+                    <h6 class="fw-bold mb-3"><i class="fas fa-lightbulb me-2 text-warning"></i>Invitation Tips</h6>
+                    <ul class="list-unstyled smaller text-secondary mb-0">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2 text-primary"></i>
+                            Invite collaborators by their work email to ensure they can log in.
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2 text-primary"></i>
+                            Assign the <strong style="color: var(--text-main);">Admin</strong> role only to those who
+                            need full project access.
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle me-2 text-primary"></i>
+                            Use the Note field to give context about the project they're joining.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>

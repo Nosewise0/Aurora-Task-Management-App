@@ -41,24 +41,3 @@
                     <% } %>
         </div>
     </div>
-
-    <script>
-        async function acceptInvite(token, id) {
-            try {
-
-                const res = await fetch(`/notifications/accept/${token}`, {
-                    method: 'GET'
-                });
-
-                const text = await res.text();
-                alert(text);
-
-                await fetch(`/notifications/read/${id}`, { method: 'POST' });
-
-                window.location.href = '/team';
-            } catch (err) {
-                console.error(err);
-                alert("Failed to accept invitation");
-            }
-        }
-    </script>

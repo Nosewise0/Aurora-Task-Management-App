@@ -28,9 +28,17 @@
             <i class="fas fa-calendar-alt"></i>
             <span>Calendar</span>
         </a>
-        <a href="/notifications" class="nav-link <%= path.startsWith('/notifications') ? 'active' : '' %>">
-            <i class="fas fa-bell"></i>
-            <span>Notifications</span>
+        <a href="/notifications"
+            class="nav-link <%= path.startsWith('/notifications') ? 'active' : '' %> d-flex justify-content-between align-items-center pe-3">
+            <div>
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+            </div>
+            <% if (typeof unreadCount !=='undefined' && unreadCount> 0) { %>
+                <span class="badge bg-danger rounded-pill">
+                    <%= unreadCount %>
+                </span>
+                <% } %>
         </a>
     </nav>
 

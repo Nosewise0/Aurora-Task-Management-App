@@ -1,28 +1,12 @@
-const express = require('express')
+const express = require("express");
 const router = express.Router();
+const settingsController = require("../controller/settingsController");
 
-router.get('/', (req, res) => {
-    res.redirect('/settings/profile')
-})
-
-router.get('/profile', (req, res) => {
-    res.render('settings', { section: 'profile' })
-})
-
-router.get('/notifications', (req, res) => {
-    res.render('settings', { section: 'notifications' })
-})
-
-router.get('/security', (req, res) => {
-    res.render('settings', { section: 'security' })
-})
-
-router.get('/appearance', (req, res) => {
-    res.render('settings', { section: 'appearance' })
-})
-
-router.get('/billing', (req, res) => {
-    res.render('settings', { section: 'billing' })
-})
+router.get("/", settingsController.redirectToProfile);
+router.get("/profile", settingsController.renderProfile);
+router.get("/notifications", settingsController.renderNotifications);
+router.get("/security", settingsController.renderSecurity);
+router.get("/appearance", settingsController.renderAppearance);
+router.get("/billing", settingsController.renderBilling);
 
 module.exports = router;

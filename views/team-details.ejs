@@ -1,0 +1,97 @@
+<% layout('layout/boilerplate') %>
+
+    <div class="container-fluid p-0">
+        <div class="mb-4">
+            <h1 class="fw-bold mb-1">Invitation Details</h1>
+            <p class="text-secondary">Viewing invite sent to <strong style="color: var(--text-main);">
+                    <%= invite.email %>
+                </strong>.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="glass-card p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0">Invite Overview</h5>
+                        <form action="/team/<%= invite.id %>?_method=DELETE" method="POST"
+                            onsubmit="return confirm('Are you sure you want to delete this invitation?')">
+                            <button type="submit" class="btn btn-outline-danger px-4 py-2 d-flex align-items-center">
+                                <i class="fas fa-trash-alt me-2"></i>Delete Invite
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <span class="badge rounded-pill px-3 py-2
+                            <% if(invite.status === 'pending')  { %> bg-warning  bg-opacity-10 text-warning  <% } %>
+                            <% if(invite.status === 'accepted') { %> bg-success  bg-opacity-10 text-success  <% } %>
+                            <% if(invite.status === 'read')     { %> bg-info     bg-opacity-10 text-info     <% } %>">
+                            <%= invite.status.charAt(0).toUpperCase() + invite.status.slice(1) %>
+                        </span>
+                        <span class="text-secondary"><i class="fas fa-user-tag me-1"></i>
+                            <%= invite.role || 'member' %>
+                        </span>
+                        <span class="text-secondary"><i class="fas fa-clock me-1"></i>
+                            <%= new Date(invite.invited_at).toLocaleString() %>
+                        </span>
+                    </div>
+
+                    <% if(invite.note) { %>
+                        <div class="glass-card p-3 mb-0">
+                            <h6 class="fw-bold mb-2"><i class="fas fa-sticky-note me-2 text-warning"></i>Personal Note
+                            </h6>
+                            <p class="text-secondary mb-0">
+                                <%= invite.note %>
+                            </p>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="glass-card p-4">
+                    <h6 class="fw-bold mb-3"><i class="fas fa-info-circle me-2 text-primary"></i>Invite Details</h6>
+                    <ul class="list-unstyled smaller mb-0">
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-secondary">Email</span>
+                            <span class="fw-semibold" style="color: var(--text-main);">
+                                <%= invite.email %>
+                            </span>
+                        </li>
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-secondary">Role</span>
+                            <span class="fw-semibold" style="color: var(--text-main);">
+                                <%= invite.role || '—' %>
+                            </span>
+                        </li>
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-secondary">Workspace</span>
+                            <span class="fw-semibold" style="color: var(--text-main);">
+                                <%= invite.workspace || '—' %>
+                            </span>
+                        </li>
+                        <li class="mb-3 d-flex justify-content-between">
+                            <span class="text-secondary">Project ID</span>
+                            <span class="fw-semibold" style="color: var(--text-main);">
+                                <%= invite.project_id || '—' %>
+                            </span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span class="text-secondary">Status</span>
+                            <span class="fw-semibold" style="color: var(--text-main);">
+                                <%= invite.status.charAt(0).toUpperCase() + invite.status.slice(1) %>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <a href="/team"
+                            class="btn btn-outline-secondary border-color px-4 py-2 d-flex align-items-center w-100 justify-content-center"
+                            style="color: var(--text-secondary);">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Team
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

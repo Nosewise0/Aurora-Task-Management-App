@@ -1,68 +1,113 @@
 <% layout('layout/boilerplate') %>
 
-    <div class="container project-details-container">
-
-
-        <div class="mb-3">
-            <a href="/projects" class="btn btn-outline-secondary d-flex align-items-center">
-                <i class="fas fa-arrow-left me-2"></i> Back
-            </a>
+    <div class="container-fluid p-0">
+        <div class="mb-4">
+            <h1 class="fw-bold mb-1">Edit Project</h1>
+            <p class="text-secondary">Update the details for <strong style="color: var(--text-main);">
+                    <%= project.title %>
+                </strong>.</p>
         </div>
 
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="glass-card p-4">
+                    <form action="/projects/<%= project.id %>/edit" method="POST">
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-semibold" style="color: var(--text-main);">Project
+                                Title</label>
+                            <input type="text" name="title" id="title" class="form-control bg-main border-color p-3"
+                                value="<%= project.title %>"
+                                style="background: var(--bg-main) !important; color: var(--text-main);" required>
+                        </div>
 
-        <div class="glass-card mb-4">
-            <h2 class="fw-bold mb-4"><i class="fas fa-edit me-2 text-primary"></i>Edit Project</h2>
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-semibold"
+                                style="color: var(--text-main);">Description</label>
+                            <textarea name="description" id="description" rows="4"
+                                class="form-control bg-main border-color p-3"
+                                style="background: var(--bg-main) !important; color: var(--text-main);"
+                                required><%= project.description %></textarea>
+                        </div>
 
-            <form action="/projects/<%= project.id %>/edit" method="POST">
+                        <div class="mb-4">
+                            <label for="status" class="form-label fw-semibold"
+                                style="color: var(--text-main);">Status</label>
+                            <select name="status" id="status" class="form-select bg-main border-color p-3"
+                                style="background: var(--bg-main) !important; color: var(--text-main);">
+                                <option value="planning" <%=project.status==='planning' ? 'selected' : '' %>>Planning
+                                </option>
+                                <option value="active" <%=project.status==='active' ? 'selected' : '' %>>Active</option>
+                                <option value="on-hold" <%=project.status==='on-hold' ? 'selected' : '' %>>On Hold
+                                </option>
+                            </select>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="start_date" class="form-label fw-semibold"
+                                    style="color: var(--text-main);">Start Date</label>
+                                <input type="date" name="start_date" id="start_date"
+                                    class="form-control bg-main border-color p-3" value="<%= project.start_date %>"
+                                    style="background: var(--bg-main) !important; color: var(--text-main);" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="end_date" class="form-label fw-semibold"
+                                    style="color: var(--text-main);">Target End Date</label>
+                                <input type="date" name="end_date" id="end_date"
+                                    class="form-control bg-main border-color p-3" value="<%= project.end_date %>"
+                                    style="background: var(--bg-main) !important; color: var(--text-main);" required>
+                            </div>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="title" class="form-label fw-semibold">Project Title</label>
-                    <input type="text" name="title" id="title" class="form-control input-premium"
-                        value="<%= project.title %>" required>
+                        <div class="mb-4">
+                            <label for="due_days" class="form-label fw-semibold" style="color: var(--text-main);">Due
+                                Days</label>
+                            <input type="number" name="due_days" id="due_days"
+                                class="form-control bg-main border-color p-3" value="<%= project.due_days %>"
+                                placeholder="e.g., 30"
+                                style="background: var(--bg-main) !important; color: var(--text-main);">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="tags" class="form-label fw-semibold" style="color: var(--text-main);">Tags /
+                                Labels</label>
+                            <input type="text" name="tags" id="tags" class="form-control bg-main border-color p-3"
+                                value="<%= project.tags %>" placeholder="e.g., Web, Q1 roadmap, Priority"
+                                style="background: var(--bg-main) !important; color: var(--text-main);">
+                        </div>
+
+                        <div class="d-flex gap-3 mt-2">
+                            <button type="submit" class="btn-premium px-5 py-3">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                            <a href="/projects/<%= project.id %>"
+                                class="btn btn-outline-secondary border-color px-4 py-3 d-flex align-items-center"
+                                style="color: var(--text-secondary);">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="description" class="form-label fw-semibold">Description</label>
-                    <textarea name="description" id="description" rows="4" class="form-control input-premium"
-                        required><%= project.description %></textarea>
+            <div class="col-lg-4">
+                <div class="glass-card p-4">
+                    <h6 class="fw-bold mb-3"><i class="fas fa-lightbulb me-2 text-warning"></i>Edit Tips</h6>
+                    <ul class="list-unstyled smaller text-secondary mb-0">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2 text-primary"></i>
+                            Updating the status keeps your team aligned on where the project stands.
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2 text-primary"></i>
+                            Adjust dates whenever the scope or timeline changes.
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle me-2 text-primary"></i>
+                            Use comma-separated tags to keep projects easy to filter.
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="mb-3">
-                    <label for="status" class="form-label fw-semibold">Status</label>
-                    <select name="status" id="status" class="form-select input-premium">
-                        <option value="active" <%=project.status==='active' ? 'selected' : '' %>>Active</option>
-                        <option value="planning" <%=project.status==='planning' ? 'selected' : '' %>>Planning</option>
-                        <option value="on-hold" <%=project.status==='on-hold' ? 'selected' : '' %>>On-Hold</option>
-                    </select>
-                </div>
-
-                <div class="mb-3 row">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <label for="start_date" class="form-label fw-semibold">Start Date</label>
-                        <input type="date" name="start_date" id="start_date" class="form-control input-premium"
-                            value="<%= project.start_date %>" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="end_date" class="form-label fw-semibold">End Date</label>
-                        <input type="date" name="end_date" id="end_date" class="form-control input-premium"
-                            value="<%= project.end_date %>" required>
-                    </div>
-                </div>
-
-
-                <div class="mb-3">
-                    <label for="tags" class="form-label fw-semibold">Tags (comma-separated)</label>
-                    <input type="text" name="tags" id="tags" class="form-control input-premium"
-                        value="<%= project.tags %>">
-                </div>
-
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary px-4 py-2 d-flex align-items-center">
-                        <i class="fas fa-save me-2"></i> Save Changes
-                    </button>
-                </div>
-
-            </form>
+            </div>
         </div>
     </div>
