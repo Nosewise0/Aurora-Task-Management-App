@@ -198,7 +198,7 @@ body.theme-dark {
 }
 
 .sidebar.collapsed .nav-link i {
-  margin: 0;
+  margin: 12px;
 }
 
 .sidebar-toggle {
