@@ -9,4 +9,6 @@ router.get("/security", settingsController.renderSecurity);
 router.get("/appearance", settingsController.renderAppearance);
 router.get("/billing", settingsController.renderBilling);
 
+router.post("/profile", settingsController.updateProfile);
+
 module.exports = router;

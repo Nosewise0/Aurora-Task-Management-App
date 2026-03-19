@@ -38,20 +38,20 @@
                 <% if (section === 'profile') { %>
                     <div class="glass-card mb-4">
                         <h5 class="fw-bold mb-4">Profile Information</h5>
-                        <form>
+                        <form action="/settings/profile" method="POST">
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <label class="form-label text-secondary small fw-bold">Name</label>
-                                    <input type="text" class="input-premium" value="<%= user.name %>">
+                                    <input type="text" name="username" class="input-premium" value="<%= user.username %>">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label text-secondary small fw-bold">Email Address</label>
-                                    <input type="email" class="input-premium" value="<%= user.email %>">
+                                    <input type="email" name="email" class="input-premium" value="<%= user.email %>">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label text-secondary small fw-bold">Bio</label>
-                                    <textarea class="input-premium" rows="3"
-                                        placeholder="Tell us something about yourself..."></textarea>
+                                    <textarea name="bio" class="input-premium" rows="3"
+                                        placeholder="Tell us something about yourself..."><%= user.bio || "" %></textarea>
                                 </div>
                             </div>
                             <div class="mt-4 d-flex gap-2">
