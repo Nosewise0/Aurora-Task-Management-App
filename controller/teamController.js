@@ -5,7 +5,10 @@ const crypto = require("crypto");
 module.exports.getTeam = async (req, res) => {
     try {
         const [invites] = await db.execute(
-            "SELECT * FROM invitations WHERE invited_by = ?",
+            `SELECT i.*, u.avatar_url, u.username 
+             FROM invitations i 
+             LEFT JOIN users u ON i.email = u.email 
+             WHERE i.invited_by = ?`,
             [req.user.id]
         );
         res.render("team", { invites });

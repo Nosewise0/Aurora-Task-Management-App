@@ -6,11 +6,6 @@ module.exports.renderTask = async (req, res) => {
     const userId = res.locals.user?.id;
     if (!userId) return res.redirect("/login?error=You must be logged in");
 
-    const [userRows] = await db.execute(
-      "SELECT id, username AS name, email FROM users WHERE id = ?",
-      [userId],
-    );
-    const user = userRows[0];
 
     const [taskCounts] = await db.execute(
       `
@@ -45,7 +40,6 @@ module.exports.renderTask = async (req, res) => {
     );
 
     res.render("dashboard", {
-      user,
       totalTasks: taskCounts[0].total,
       inProgress: taskCounts[0].inProgress,
       completed: taskCounts[0].completed,

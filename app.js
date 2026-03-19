@@ -40,7 +40,16 @@ app.use(async (req, res, next) => {
   const { token } = req.cookies;
   if (token) {
     try {
-      res.locals.user = jwt.verify(token, JWT_SECRET);
+      const decodedUser = jwt.verify(token, JWT_SECRET);
+      
+      const [userRows] = await db.execute("SELECT username, avatar_url, email FROM users WHERE id = ?", [decodedUser.id]);
+      if (userRows.length > 0) {
+        decodedUser.username = userRows[0].username;
+        decodedUser.avatar_url = userRows[0].avatar_url;
+        decodedUser.name = userRows[0].username;
+        decodedUser.email = userRows[0].email;
+      }
+      res.locals.user = decodedUser;
 
       const [rows] = await db.execute(
         "SELECT COUNT(*) as count FROM invitations WHERE email = ? AND status = 'pending'",

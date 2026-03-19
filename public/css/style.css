@@ -285,11 +285,9 @@ body.theme-dark {
 }
 
 .btn-premium {
-  background: linear-gradient(
-    135deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
+  background: linear-gradient(135deg,
+      var(--accent-primary),
+      var(--accent-secondary));
   color: white;
   border: none;
   padding: 0.8rem 1.5rem;
@@ -381,12 +379,10 @@ body.theme-dark {
 }
 
 .landing-body {
-  background: radial-gradient(
-    circle at top left,
-    #f5f3ff 0,
-    #f8f9fc 40%,
-    #ffffff 100%
-  );
+  background: radial-gradient(circle at top left,
+      #f5f3ff 0,
+      #f8f9fc 40%,
+      #ffffff 100%);
   color: var(--text-primary);
   min-height: 100vh;
   font-family:
@@ -417,11 +413,9 @@ body.theme-dark {
   width: 32px;
   height: 32px;
   border-radius: 10px;
-  background: linear-gradient(
-    135deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
+  background: linear-gradient(135deg,
+      var(--accent-primary),
+      var(--accent-secondary));
   color: #fff;
   font-size: 0.9rem;
 }
@@ -469,11 +463,9 @@ body.theme-dark {
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: linear-gradient(
-    135deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
+  background: linear-gradient(135deg,
+      var(--accent-primary),
+      var(--accent-secondary));
 }
 
 .landing-hero-title {
@@ -485,11 +477,9 @@ body.theme-dark {
 }
 
 .landing-hero-gradient {
-  background: linear-gradient(
-    120deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
+  background: linear-gradient(120deg,
+      var(--accent-primary),
+      var(--accent-secondary));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -576,12 +566,10 @@ body.theme-dark {
 /* Board preview card */
 
 .landing-board-card {
-  background: radial-gradient(
-    circle at top left,
-    #f8f5ff 0,
-    #ffffff 45%,
-    #f8f9fc 100%
-  );
+  background: radial-gradient(circle at top left,
+      #f8f5ff 0,
+      #ffffff 45%,
+      #f8f9fc 100%);
   border-radius: 24px;
   padding: 1.75rem 1.75rem 1.5rem;
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
@@ -813,6 +801,57 @@ body.theme-dark {
   color: #16a34a;
 }
 
+/* Avatar Utilities */
+.avatar-circle {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+.avatar-large {
+  width: 80px;
+  height: 80px;
+}
+.avatar-small {
+  width: 36px;
+  height: 36px;
+}
+.avatar-upload-wrapper {
+  width: fit-content;
+}
+.avatar-edit-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: var(--transition);
+  z-index: 10;
+  cursor: pointer;
+}
+.avatar-upload-wrapper:hover .avatar-edit-overlay {
+  opacity: 1;
+}
+.sidebar-user-link:hover {
+  background-color: var(--bg-card-hover);
+}
+
+/* Sidebar Collapsed State for User Widget */
+.sidebar.collapsed .sidebar-user-info,
+.sidebar.collapsed .sidebar-user > a:last-child {
+  display: none !important;
+}
+.sidebar.collapsed .sidebar-user {
+  justify-content: center !important;
+  padding: 1rem 0 !important;
+}
+.sidebar.collapsed .sidebar-user-link {
+  justify-content: center !important;
+  margin: 0 auto;
+}
+
 .bg-soft-purple {
   background: rgba(139, 92, 246, 0.1);
   color: #6d28d9;
@@ -951,8 +990,8 @@ body.theme-dark {
     grid-template-columns: 2.4fr 1.1fr 1.3fr;
   }
 
-  .landing-board-row > div:nth-child(4),
-  .landing-board-row > div:nth-child(5) {
+  .landing-board-row>div:nth-child(4),
+  .landing-board-row>div:nth-child(5) {
     display: none;
   }
 }
@@ -980,7 +1019,7 @@ body.theme-dark {
 }
 
 .progress-bar {
-   width: var(--progress);
+  width: var(--progress);
   background: var(--accent-primary);
   height: 100%;
   border-radius: 3px;
@@ -988,31 +1027,31 @@ body.theme-dark {
 }
 
 .project-details-container {
-    max-width: 900px;  
-    margin: 2rem auto; 
-    padding: 0 1rem;   
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
 .project-details-container .glass-card {
-    padding: 2rem;
+  padding: 2rem;
 }
 
 .project-details-container .progress {
-    height: 8px;
-    border-radius: 6px;
+  height: 8px;
+  border-radius: 6px;
 }
 
 .project-details-container .progress-bar {
-    background: var(--accent-primary);
-    transition: width 0.5s ease;
+  background: var(--accent-primary);
+  transition: width 0.5s ease;
 }
 
 .project-details-container .badge {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 
 .project-details-container .landing-pill {
-    font-size: 0.75rem;
+  font-size: 0.75rem;
 }
 
 /* ================================
@@ -1177,7 +1216,8 @@ body.theme-dark {
   font-size: 0.7rem;
   font-weight: 600;
   color: #fff;
-  background-color: #ef4444; /* red */
+  background-color: #ef4444;
+  /* red */
   border-radius: 999px;
   margin-left: 6px;
 }

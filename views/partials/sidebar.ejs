@@ -42,16 +42,26 @@
         </a>
     </nav>
 
-    <div class="sidebar-nav" style="flex: 0;">
+    <div class="sidebar-nav" style="flex: 0; padding-bottom: 2rem;">
         <% if (user) { %>
-            <a href="/settings" class="nav-link <%= path.startsWith('/settings') ? 'active' : '' %>">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-            <a href="/logout" class="nav-link">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
+            <div class="sidebar-user mt-auto pt-3 border-top border-color d-flex align-items-center justify-content-between px-2">
+                <a href="/settings/profile" class="text-decoration-none d-flex align-items-center gap-3 sidebar-user-link p-2 rounded flex-grow-1 overflow-hidden" title="Settings">
+                    <% if (user.avatar_url) { %>
+                        <img src="<%= user.avatar_url %>" alt="User" class="avatar-circle avatar-small object-fit-cover flex-shrink-0">
+                    <% } else { %>
+                        <div class="avatar-circle avatar-small bg-primary text-white d-flex align-items-center justify-content-center fw-bold small flex-shrink-0">
+                            <%= (user.username || user.name || '').split(' ').map(n => n?.charAt(0) || '').join('').toUpperCase().slice(0, 2) || '?' %>
+                        </div>
+                    <% } %>
+                    <div class="sidebar-user-info overflow-hidden">
+                        <div class="fw-semibold text-truncate text-body" style="font-size: 0.9rem;"><%= user.username %></div>
+                        <div class="text-secondary small text-truncate" style="font-size: 0.75rem;"><%= user.email %></div>
+                    </div>
+                </a>
+                <a href="/logout" class="text-secondary p-2 ms-1 rounded sidebar-user-link d-flex align-items-center justify-content-center" title="Logout" style="width: 36px; height: 36px;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
             <% } else { %>
                 <a href="/login" class="nav-link <%= path === '/login' ? 'active' : '' %>">
                     <i class="fas fa-sign-in-alt"></i>
