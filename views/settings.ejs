@@ -35,7 +35,7 @@
             </div>
 
             <div class="col-md-9">
-                <% if (section==='profile' ) { %>
+                <% if (section==='profile') { %>
                     <div class="glass-card mb-4">
                         <h5 class="fw-bold mb-4">Profile Information</h5>
                         
@@ -99,7 +99,7 @@
                                 class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">Active</span>
                         </div>
                     </div>
-                    <% } else if (section==='notifications' ) { %>
+                    <% } else if (section==='notifications') { %>
                         <div class="glass-card mb-4">
                             <h5 class="fw-bold mb-3">Notification Preferences</h5>
                             <p class="text-secondary small mb-4">
@@ -160,36 +160,39 @@
                                 <button type="button" class="btn-premium">Save Notification Settings</button>
                             </div>
                         </div>
-                        <% } else if (section==='security' ) { %>
+                        <% } else if (section==='security') { %>
+                            
                             <div class="glass-card mb-4">
                                 <h5 class="fw-bold mb-3">Security</h5>
                                 <p class="text-secondary small mb-4">
                                     Keep your account secure with strong credentials and 2FA.
                                 </p>
-
+                                <form action="/settings/security" method="POST">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label text-secondary small fw-bold">Current Password</label>
-                                        <input type="password" class="input-premium" placeholder="••••••••">
+                                        <input type="password" name="currentPassword" class="input-premium" placeholder="••••••••">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label text-secondary small fw-bold">New Password</label>
-                                        <input type="password" class="input-premium"
+                                        <input type="password" name="newPassword" class="input-premium"
                                             placeholder="Choose a strong password">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label text-secondary small fw-bold">Confirm New
                                             Password</label>
-                                        <input type="password" class="input-premium" placeholder="Repeat new password">
+                                        <input type="password" name="confirmPassword" class="input-premium" placeholder="Repeat new password">
                                     </div>
+                                    
                                 </div>
 
                                 <div class="mt-4 d-flex gap-2">
-                                    <button type="button" class="btn-premium">Update Password</button>
+                                    <button type="submit" class="btn-premium">Update Password</button>
                                     <button type="button" class="btn btn-outline-secondary rounded-3 border-color">
                                         Reset via email
                                     </button>
                                 </div>
+                                </form>
                             </div>
 
                             <div class="glass-card">
@@ -208,7 +211,7 @@
                                     <i class="fas fa-shield-alt me-2"></i>Enable 2FA
                                 </button>
                             </div>
-                            <% } else if (section==='appearance' ) { %>
+                            <% } else if (section==='appearance') { %>
                                 <div class="glass-card mb-4">
                                     <h5 class="fw-bold mb-3">Appearance</h5>
                                     <p class="text-secondary small mb-4">
@@ -261,7 +264,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <% } else if (section==='billing' ) { %>
+                                <% } else if (section==='billing') { %>
                                     <div class="glass-card mb-4">
                                         <div class="d-flex justify-content-between align-items-start mb-3">
                                             <div>
