@@ -1,0 +1,57 @@
+.task-card {
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.task-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-primary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.smaller {
+  font-size: 0.8rem;
+}
+
+.progress {
+  height: 6px;
+  background-color: var(--bg-main);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: var(--progress);
+  background: var(--accent-primary);
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.project-details-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.project-details-container .glass-card {
+  padding: 2rem;
+}
+
+.project-details-container .progress {
+  height: 8px;
+  border-radius: 6px;
+}
+
+.project-details-container .progress-bar {
+  background: var(--accent-primary);
+  transition: width 0.5s ease;
+}
+
+.project-details-container .badge {
+  font-size: 0.8rem;
+}
+
+.project-details-container .landing-pill {
+  font-size: 0.75rem;
+}
