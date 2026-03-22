@@ -1,5 +1,4 @@
 const db = require("../config/database");
-const { renderError } = require("../utils/errorHandler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 

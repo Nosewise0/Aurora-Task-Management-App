@@ -1,5 +1,3 @@
-
-
 .settings-page {
   max-width: 1080px;
 }
@@ -159,7 +157,7 @@
   font-weight: 600;
   color: #fff;
   background-color: #ef4444;
-  
+  /* red */
   border-radius: 999px;
   margin-left: 6px;
 }

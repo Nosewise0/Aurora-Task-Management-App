@@ -17,8 +17,8 @@ const projectRoutes = require('./router/projectRoutes');
 const teamRoutes = require('./router/teamRoutes');
 const dashboardRoutes = require('./router/dashboardRoutes');
 const notificationRoutes = require('./router/notificationRoutes');
+const aiRoutes = require('./router/aiRoutes');
 const { isLoggedIn } = require('./middleware/auth');
-
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -41,7 +41,7 @@ app.use(async (req, res, next) => {
   if (token) {
     try {
       const decodedUser = jwt.verify(token, JWT_SECRET);
-      
+
       const [userRows] = await db.execute("SELECT username, avatar_url, email FROM users WHERE id = ?", [decodedUser.id]);
       if (userRows.length > 0) {
         decodedUser.username = userRows[0].username;
@@ -73,9 +73,10 @@ app.use('/dashboard', isLoggedIn, dashboardRoutes);
 app.use('/tasks', isLoggedIn, tasksRoutes);
 app.use('/projects', isLoggedIn, projectRoutes);
 app.use('/team', isLoggedIn, teamRoutes);
-app.use('/calendar', isLoggedIn, calendarRoutes);
+
 app.use('/settings', isLoggedIn, settingsRoutes);
 app.use('/notifications', isLoggedIn, notificationRoutes);
+app.use('/ai', isLoggedIn, aiRoutes);
 
 app.use((req, res) => {
   res.status(404).render("error", {

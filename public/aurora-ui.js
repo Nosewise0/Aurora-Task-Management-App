@@ -67,3 +67,95 @@ document.querySelectorAll('a.show-loader').forEach(link => {
         }, 1000);
     });
 });
+
+
+const chatToggle = document.getElementById('ai-chat-toggle');
+const chatWindow = document.getElementById('ai-chat-window');
+const chatClose = document.getElementById('ai-chat-close');
+const chatInput = document.getElementById('ai-chat-input');
+const chatSend = document.getElementById('ai-chat-send');
+const chatMessages = document.getElementById('ai-chat-messages');
+
+if (chatToggle && chatWindow && chatClose) {
+    chatToggle.addEventListener('click', () => {
+        chatWindow.classList.toggle('active');
+        if (chatWindow.classList.contains('active')) {
+            chatInput.focus();
+        }
+    });
+
+    chatClose.addEventListener('click', () => {
+        chatWindow.classList.remove('active');
+    });
+
+    const sendMessage = async () => {
+        const message = chatInput.value.trim();
+        if (message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'ai-message ai-message-sent';
+            messageElement.innerHTML = `
+                <div class="ai-message-bubble">${message}</div>
+                <span class="ai-message-time">Just now</span>
+            `;
+            chatMessages.appendChild(messageElement);
+            chatInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+
+            const loadingElement = document.createElement('div');
+            loadingElement.className = 'ai-message ai-message-received ai-loading';
+            loadingElement.innerHTML = `
+                <div class="ai-message-bubble">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            `;
+            chatMessages.appendChild(loadingElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/ai/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+
+                chatMessages.removeChild(loadingElement);
+
+                const responseElement = document.createElement('div');
+                responseElement.className = 'ai-message ai-message-received';
+                responseElement.innerHTML = `
+                    <div class="ai-message-bubble">${data.reply || 'Sorry, I encountered an error.'}</div>
+                    <span class="ai-message-time">Just now</span>
+                `;
+                chatMessages.appendChild(responseElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                console.error('Chat Error:', error);
+                chatMessages.removeChild(loadingElement);
+
+                const errorElement = document.createElement('div');
+                errorElement.className = 'ai-message ai-message-received';
+                errorElement.innerHTML = `
+                    <div class="ai-message-bubble" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
+                        <i class="fas fa-exclamation-circle me-1"></i> 
+                        I'm currently over capacity or my quota has been reached. Please check back later!
+                    </div>
+                    <span class="ai-message-time">Just now</span>
+                `;
+                chatMessages.appendChild(errorElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+    };
+
+    chatSend.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+}

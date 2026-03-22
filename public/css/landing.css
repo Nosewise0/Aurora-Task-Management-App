@@ -422,21 +422,25 @@
   width: 40px;
   height: 40px;
 }
+
 .avatar-large {
   width: 80px;
   height: 80px;
 }
+
 .avatar-small {
   width: 36px;
   height: 36px;
 }
+
 .avatar-upload-wrapper {
   width: fit-content;
 }
+
 .avatar-edit-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -446,21 +450,25 @@
   z-index: 10;
   cursor: pointer;
 }
+
 .avatar-upload-wrapper:hover .avatar-edit-overlay {
   opacity: 1;
 }
+
 .sidebar-user-link:hover {
   background-color: var(--bg-card-hover);
 }
 
 .sidebar.collapsed .sidebar-user-info,
-.sidebar.collapsed .sidebar-user > a:last-child {
+.sidebar.collapsed .sidebar-user>a:last-child {
   display: none !important;
 }
+
 .sidebar.collapsed .sidebar-user {
   justify-content: center !important;
   padding: 1rem 0 !important;
 }
+
 .sidebar.collapsed .sidebar-user-link {
   justify-content: center !important;
   margin: 0 auto;
