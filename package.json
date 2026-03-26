@@ -1,6 +1,7 @@
 {
   "name": "aurora",
   "version": "1.0.0",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -26,6 +27,7 @@
     "mysql2": "^3.18.2",
     "node": "^25.7.0",
     "nodemon": "^3.1.14",
-    "openai": "^6.32.0"
+    "ollama": "^0.6.3",
+    "openai": "^6.33.0"
   }
 }

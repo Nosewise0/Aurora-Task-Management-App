@@ -48,6 +48,16 @@ module.exports.renderBilling = (req, res) => {
 module.exports.updateProfile = async (req, res) => {
   try {
     const { username, email, bio } = req.body;
+    const userId = req.user.id;
+
+     const [existing] = await db.execute(
+      "SELECT id FROM users WHERE username = ? AND id != ?",
+      [username, userId]
+    );
+    
+     if (existing.length > 0) {
+      return res.status(400).send("Username already taken");
+    }
 
     await db.execute(
       "UPDATE users SET username = ?, email = ?, bio = ? WHERE id = ?",

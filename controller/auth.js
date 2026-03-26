@@ -1,56 +1,59 @@
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../config/database");
-const { renderError } = require("../utils/errorHandler");
 
 const JWT_SECRET = process.env.JWT_SECRET || "thisshouldbeasecret";
 
 module.exports.renderRegister = (req, res) => {
-  res.render('register')
+    res.render('register')
 };
 
 module.exports.register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
+    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
 
     if (rows.length > 0) {
-      return res.redirect("/register?error=An account with that email already exists.");
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db.execute(
+    const [result] = await db.execute(
       "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
       [username, email, hashedPassword],
     );
 
-    res.redirect("/login?success=Account created! Please sign in.");
+    res.redirect("/login");
   } catch (error) {
     console.error(error);
-    renderError(res, 500);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
 module.exports.renderLogin = (req, res) => {
-  res.render('login')
-};
+    res.render('login')
+}
 
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
+    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
     const user = rows[0];
-
     if (!user) {
-      return res.redirect("/login?error=No account found with that email address.");
+      return res.status(400).json({ message: "user not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.redirect("/login?error=Incorrect password. Please try again.");
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     const token = jwt.sign(
@@ -63,20 +66,16 @@ module.exports.login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 3600000,
+      maxAge: 3600000, // 1 HR EXPIRATION
     });
     res.redirect("/dashboard");
   } catch (err) {
-    console.error(err);
-    renderError(res, 500);
+    console.log(err);
+    res.status(400).json({ message: "server error" });
   }
 };
 
 module.exports.logout = (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Strict",
-  });
-  res.redirect("/home");
+  res.clearCookie("token");
+  res.redirect("/login");
 };

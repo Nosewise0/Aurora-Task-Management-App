@@ -1,30 +1,29 @@
+
 const express = require('express');
 const router = express.Router();
-const openai = require('../config/openai');
+const ollama = require('ollama')
 
 router.post('/chat', async (req, res) => {
     try {
         const { message } = req.body;
 
-        if (!message) {
-            return res.status(400).json({ error: 'Message is required' });
-        }
-
-        const response = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+        const response = await ollama.chat({
+            model: 'llama3',
             messages: [
-                { role: "system", content: "You are Aurora AI, a helpful task management assistant." },
-                { role: "user", content: message }
-            ],
-            max_tokens: 500,
+                {
+                    role: 'user',
+                    content: message
+                }
+            ]
         });
 
-        const aiMessage = response.choices[0].message.content;
-        res.json({ reply: aiMessage });
+        res.json({
+            reply: response.message.content
+        });
 
-    } catch (error) {
-        console.error('AI Error:', error);
-        res.status(500).json({ error: 'Failed to get AI response' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'AI request failed' });
     }
 });
 
