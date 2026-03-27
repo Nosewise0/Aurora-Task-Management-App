@@ -1,21 +1,21 @@
-
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const db = require("../config/database");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import db from "../config/database.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "thisshouldbeasecret";
 
-module.exports.renderRegister = (req, res) => {
-    res.render('register')
+export const renderRegister = (req, res) => {
+    res.render("register");
 };
 
-module.exports.register = async (req, res) => {
+export const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
+    const [rows] = await db.execute(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
 
     if (rows.length > 0) {
       return res.status(400).json({ message: "User already exists" });
@@ -23,35 +23,39 @@ module.exports.register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const [result] = await db.execute(
+    await db.execute(
       "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-      [username, email, hashedPassword],
+      [username, email, hashedPassword]
     );
 
     res.redirect("/login");
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-module.exports.renderLogin = (req, res) => {
-    res.render('login')
-}
+export const renderLogin = (req, res) => {
+    res.render("login");
+};
 
-module.exports.login = async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
-      email,
-    ]);
+    const [rows] = await db.execute(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
+
     const user = rows[0];
+
     if (!user) {
-      return res.status(400).json({ message: "user not found" });
+      return res.status(400).json({ message: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -59,23 +63,24 @@ module.exports.login = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, name: user.username, email: user.email },
       JWT_SECRET,
-      { expiresIn: "1h" },
+      { expiresIn: "1h" }
     );
 
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
-      maxAge: 3600000, // 1 HR EXPIRATION
+      maxAge: 3600000,
     });
+
     res.redirect("/dashboard");
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: "server error" });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-module.exports.logout = (req, res) => {
+export const logout = (req, res) => {
   res.clearCookie("token");
   res.redirect("/login");
 };

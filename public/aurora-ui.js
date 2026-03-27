@@ -3,6 +3,7 @@ const sidebarToggle = document.getElementById('sidebar-toggle');
 const sidebarOverlay = document.getElementById('sidebar-overlay');
 const mainContent = document.getElementById('main-content');
 const globalLoader = document.getElementById('global-loader');
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 
 if (sidebar && mainContent) {
     if (window.innerWidth > 768 && localStorage.getItem('sidebar-collapsed') === 'true') {
@@ -17,6 +18,29 @@ if (sidebar && mainContent) {
             localStorage.setItem('sidebar-collapsed', isCollapsed);
         });
     }
+
+    function toggleMobileSidebar() {
+        sidebar.classList.toggle('show');
+        sidebarOverlay.classList.toggle('active');
+        document.body.classList.toggle('sidebar-open');
+    }
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', toggleMobileSidebar);
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', toggleMobileSidebar);
+    }
+
+    const navLinks = sidebar.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('show')) {
+                toggleMobileSidebar();
+            }
+        });
+    });
 }
 
 function showGlobalLoader() {
@@ -77,15 +101,19 @@ const chatSend = document.getElementById('ai-chat-send');
 const chatMessages = document.getElementById('ai-chat-messages');
 
 if (chatToggle && chatWindow && chatClose) {
+    const chatContainer = document.querySelector('.ai-chat-container');
+
     chatToggle.addEventListener('click', () => {
-        chatWindow.classList.toggle('active');
-        if (chatWindow.classList.contains('active')) {
-            chatInput.focus();
-        }
+        chatWindow.classList.add('active');
+        chatContainer.classList.add('chat-open');
+        chatToggle.style.display = 'none';
+        chatInput.focus();
     });
 
     chatClose.addEventListener('click', () => {
         chatWindow.classList.remove('active');
+        chatContainer.classList.remove('chat-open');
+        chatToggle.style.display = 'flex';
     });
 
     const sendMessage = async () => {

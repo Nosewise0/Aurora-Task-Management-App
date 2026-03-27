@@ -144,6 +144,20 @@
     align-items: flex-start;
     gap: 0.4rem;
   }
+
+  .settings-sidebar .nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .settings-sidebar .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .settings-sidebar .nav-link {
+    white-space: nowrap;
+  }
 }
 
 .notif-badge {
@@ -161,4 +175,3 @@
   border-radius: 999px;
   margin-left: 6px;
 }
-

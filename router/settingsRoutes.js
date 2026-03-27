@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import * as settingsController from "../controller/settingsController.js";
+import uploadAvatar from "../middleware/upload.js";
+
 const router = express.Router();
-const settingsController = require("../controller/settingsController");
-const uploadAvatar = require("../middleware/upload");
 
 router.get("/", settingsController.redirectToProfile);
 router.get("/profile", settingsController.renderProfile);
@@ -14,4 +15,4 @@ router.post("/profile", settingsController.updateProfile);
 router.post("/avatar", uploadAvatar.single("avatar"), settingsController.uploadAvatar);
 router.post("/security", settingsController.updatePassword);
 
-module.exports = router;
+export default router;

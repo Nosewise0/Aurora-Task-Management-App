@@ -1,7 +1,7 @@
-const db = require("../config/database");
-const { renderError } = require("../utils/errorHandler");
+import db from "../config/database.js";
+import { renderError } from "../utils/errorHandler.js";
 
-module.exports.getNotifications = async (req, res) => {
+export const getNotifications = async (req, res) => {
     try {
         const [invites] = await db.execute(
             "SELECT * FROM invitations WHERE email = ? AND status = 'pending'",
@@ -25,7 +25,7 @@ module.exports.getNotifications = async (req, res) => {
     }
 };
 
-module.exports.markRead = async (req, res) => {
+export const markRead = async (req, res) => {
     try {
         await db.execute(
             "UPDATE invitations SET status='read' WHERE id = ? AND email = ?",
@@ -38,7 +38,7 @@ module.exports.markRead = async (req, res) => {
     }
 };
 
-module.exports.acceptInvite = async (req, res) => {
+export const acceptInvite = async (req, res) => {
     try {
         const [rows] = await db.execute(
             "SELECT * FROM invitations WHERE token = ? AND status = 'pending' AND email = ?",

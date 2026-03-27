@@ -2,8 +2,13 @@
     position: fixed;
     bottom: 30px;
     right: 30px;
-    z-index: 1000;
+    z-index: 1050;
     font-family: inherit;
+}
+
+.ai-chat-container.chat-open {
+    bottom: 0;
+    right: 0;
 }
 
 .ai-chat-toggle {
@@ -34,30 +39,46 @@
 }
 
 .ai-chat-window {
-    position: absolute;
-    bottom: 80px;
+    position: fixed;
+    top: 0;
     right: 0;
-    width: 380px;
-    height: 550px;
+    width: 420px;
+    height: 100vh;
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
+    border-left: 1px solid var(--border-color);
+    border-radius: 0;
     display: none;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.3s ease-out;
+    box-shadow: -4px 0 30px rgba(0, 0, 0, 0.15);
+    animation: slideInPanel 0.3s ease-out;
 }
 
-@keyframes slideIn {
+@keyframes slideInPanel {
     from {
         opacity: 0;
-        transform: translateY(20px) scale(0.95);
+        transform: translateX(100%);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .ai-chat-container {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .ai-chat-container.chat-open {
+        bottom: 0;
+        right: 0;
+    }
+
+    .ai-chat-window {
+        width: 100vw;
     }
 }
 

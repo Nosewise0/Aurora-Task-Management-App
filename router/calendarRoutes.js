@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import * as calendarController from "../controller/calendarController.js";
+
 const router = express.Router();
-const calendarController = require("../controller/calendarController");
 
 router.get("/", calendarController.renderCalendar);
 
-module.exports = router;
+export default router;

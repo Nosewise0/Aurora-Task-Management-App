@@ -1,8 +1,8 @@
-const db = require("../config/database");
-const { renderError } = require("../utils/errorHandler");
-const crypto = require("crypto");
+import db from "../config/database.js";
+import { renderError } from "../utils/errorHandler.js";
+import crypto from "crypto";
 
-module.exports.getTeam = async (req, res) => {
+export const getTeam = async (req, res) => {
     try {
         const [invites] = await db.execute(
             `SELECT i.*, u.avatar_url, u.username 
@@ -18,7 +18,7 @@ module.exports.getTeam = async (req, res) => {
     }
 };
 
-module.exports.getInviteById = async (req, res) => {
+export const getInviteById = async (req, res) => {
     try {
         const [rows] = await db.execute(
             "SELECT * FROM invitations WHERE id = ? AND invited_by = ?",
@@ -32,12 +32,11 @@ module.exports.getInviteById = async (req, res) => {
     }
 };
 
-
-module.exports.renderInvite = (req, res) => {
+export const renderInvite = (req, res) => {
     res.render("invitemember");
 };
 
-module.exports.sendInvite = async (req, res) => {
+export const sendInvite = async (req, res) => {
     try {
         const { email, role, workspace, note, project_id } = req.body;
         const invited_by = req.user.id;
@@ -55,7 +54,7 @@ module.exports.sendInvite = async (req, res) => {
     }
 };
 
-module.exports.deleteInvite = async (req, res) => {
+export const deleteInvite = async (req, res) => {
     try {
         const [rows] = await db.execute(
             "SELECT * FROM invitations WHERE id = ? AND invited_by = ?",

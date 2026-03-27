@@ -1,8 +1,8 @@
-const db = require("../config/database");
-const { formatDate, getCategoryColor, getPriorityColor } = require("../utils/taskHelpers");
-const { renderError } = require("../utils/errorHandler");
+import db from "../config/database.js";
+import { formatDate, getCategoryColor, getPriorityColor } from "../utils/taskHelpers.js";
+import { renderError } from "../utils/errorHandler.js";
 
-module.exports.getTasks = async (req, res) => {
+export const getTasks = async (req, res) => {
     try {
         const user_id = req.user.id;
         const [tasks] = await db.execute(
@@ -25,11 +25,11 @@ module.exports.getTasks = async (req, res) => {
     }
 };
 
-module.exports.renderNewTask = (req, res) => {
+export const renderNewTask = (req, res) => {
     res.render("newtask");
 };
 
-module.exports.createTask = async (req, res) => {
+export const createTask = async (req, res) => {
     const { title, description, status, priority, due_date, category } = req.body;
 
     const validStatuses = ["pending", "completed", "in-progress", "review"];
@@ -51,7 +51,7 @@ module.exports.createTask = async (req, res) => {
     }
 };
 
-module.exports.getTaskById = async (req, res) => {
+export const getTaskById = async (req, res) => {
     try {
         const [rows] = await db.execute("SELECT * FROM tasks WHERE id = ?", [req.params.id]);
         if (!rows.length) return renderError(res, 404, "The task you're looking for doesn't exist.");
@@ -63,7 +63,7 @@ module.exports.getTaskById = async (req, res) => {
     }
 };
 
-module.exports.renderEditTask = async (req, res) => {
+export const renderEditTask = async (req, res) => {
     try {
         const [rows] = await db.execute("SELECT * FROM tasks WHERE id = ?", [req.params.id]);
         if (!rows.length) return renderError(res, 404, "The task you're looking for doesn't exist.");
@@ -75,7 +75,7 @@ module.exports.renderEditTask = async (req, res) => {
     }
 };
 
-module.exports.updateTask = async (req, res) => {
+export const updateTask = async (req, res) => {
     const { title, description, status, priority, due_date, category } = req.body;
     const taskId = req.params.id;
     try {
@@ -92,7 +92,7 @@ module.exports.updateTask = async (req, res) => {
     }
 };
 
-module.exports.deleteTask = async (req, res) => {
+export const deleteTask = async (req, res) => {
     try {
         const [rows] = await db.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", [req.params.id, req.user.id]);
         if (!rows.length) return renderError(res, 403, "You can only delete your own tasks.");

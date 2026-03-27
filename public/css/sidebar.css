@@ -19,7 +19,8 @@
 }
 
 .sidebar.collapsed .sidebar-brand span,
-.sidebar.collapsed .nav-link span {
+.sidebar.collapsed .nav-link span,
+.sidebar.collapsed .nav-link .badge {
   display: none;
 }
 
@@ -29,12 +30,12 @@
 }
 
 .sidebar.collapsed .nav-link {
-  justify-content: center;
+  justify-content: center !important;
   padding: 0.875rem 0;
 }
 
 .sidebar.collapsed .nav-link i {
-  margin: 12px;
+  margin: 1px;
 }
 
 .sidebar-toggle {
@@ -103,4 +104,36 @@
 .nav-link i {
   width: 20px;
   font-size: 1.2rem;
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px !important;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .sidebar-toggle {
+    display: none !important;
+  }
+
+  .sidebar-brand,
+  .nav-link span,
+  .sidebar-user-info,
+  .sidebar-user>a:last-child {
+    display: flex !important;
+  }
+
+  .sidebar-user {
+    justify-content: space-between !important;
+    padding: 1rem 0.5rem !important;
+  }
+
+  .sidebar-user-link {
+    justify-content: flex-start !important;
+    margin: 0 !important;
+  }
 }

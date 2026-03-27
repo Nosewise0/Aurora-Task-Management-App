@@ -106,3 +106,18 @@
 .table-dark td {
   border-bottom: 1px solid var(--border-color);
 }
+
+@media (max-width: 767.98px) {
+  .glass-card {
+    padding: 1.25rem;
+  }
+  
+  .btn-premium {
+    padding: 0.7rem 1.2rem;
+  }
+  
+  .grid-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+}

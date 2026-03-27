@@ -1,7 +1,7 @@
-const db = require("../config/database");
-const { renderError } = require("../utils/errorHandler");
+import db from "../config/database.js";
+import { renderError } from "../utils/errorHandler.js";
 
-module.exports.getProjects = async (req, res) => {
+export const getProjects = async (req, res) => {
     try {
         const [projects] = await db.execute(
             `SELECT DISTINCT p.*
@@ -18,11 +18,11 @@ module.exports.getProjects = async (req, res) => {
     }
 };
 
-module.exports.renderNewProject = (req, res) => {
+export const renderNewProject = (req, res) => {
     res.render("newproject");
 };
 
-module.exports.createProject = async (req, res) => {
+export const createProject = async (req, res) => {
     let { title, description, status, start_date, end_date, due_days, tags } = req.body;
     const user_id = req.user.id;
 
@@ -58,7 +58,7 @@ async function fetchAccessibleProject(projectId, userId) {
     return rows[0] || null;
 }
 
-module.exports.getProjectById = async (req, res) => {
+export const getProjectById = async (req, res) => {
     try {
         const project = await fetchAccessibleProject(req.params.id, req.user.id);
         if (!project) return renderError(res, 403);
@@ -69,7 +69,7 @@ module.exports.getProjectById = async (req, res) => {
     }
 };
 
-module.exports.renderEditProject = async (req, res) => {
+export const renderEditProject = async (req, res) => {
     try {
         const project = await fetchAccessibleProject(req.params.id, req.user.id);
         if (!project) return renderError(res, 403);
@@ -80,7 +80,7 @@ module.exports.renderEditProject = async (req, res) => {
     }
 };
 
-module.exports.updateProject = async (req, res) => {
+export const updateProject = async (req, res) => {
     const projectId = req.params.id;
     let { title, description, status, start_date, end_date, due_days, tags } = req.body;
 
@@ -112,7 +112,7 @@ module.exports.updateProject = async (req, res) => {
     }
 };
 
-module.exports.deleteProject = async (req, res) => {
+export const deleteProject = async (req, res) => {
     const projectId = req.params.id;
     try {
         const [rows] = await db.execute(
@@ -129,7 +129,7 @@ module.exports.deleteProject = async (req, res) => {
     }
 };
 
-module.exports.acceptProjectInvite = async (req, res) => {
+export const acceptProjectInvite = async (req, res) => {
     try {
         const token = req.params.token;
         const [inviteRows] = await db.execute(

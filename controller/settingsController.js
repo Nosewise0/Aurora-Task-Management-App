@@ -1,12 +1,12 @@
-const db = require("../config/database");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+import db from "../config/database.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
-module.exports.redirectToProfile = (req, res) => {
+export const redirectToProfile = (req, res) => {
   res.redirect("/settings/profile");
 };
 
-module.exports.renderProfile = async (req, res) => {
+export const renderProfile = async (req, res) => {
   const [rows] = await db.execute("SELECT * FROM users WHERE id = ?", [
     req.user.id,
   ]);
@@ -17,35 +17,35 @@ module.exports.renderProfile = async (req, res) => {
   });
 };
 
-module.exports.renderNotifications = (req, res) => {
+export const renderNotifications = (req, res) => {
   res.render("settings", {
     section: "notifications",
     user: res.locals.user,
   });
 };
 
-module.exports.renderSecurity = (req, res) => {
+export const renderSecurity = (req, res) => {
   res.render("settings", {
     section: "security",
     user: res.locals.user,
   });
 };
 
-module.exports.renderAppearance = (req, res) => {
+export const renderAppearance = (req, res) => {
   res.render("settings", {
     section: "appearance",
     user: res.locals.user,
   });
 };
 
-module.exports.renderBilling = (req, res) => {
+export const renderBilling = (req, res) => {
   res.render("settings", {
     section: "billing",
     user: res.locals.user,
   });
 };
 
-module.exports.updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const { username, email, bio } = req.body;
     const userId = req.user.id;
@@ -78,7 +78,7 @@ module.exports.updateProfile = async (req, res) => {
   }
 };
 
-module.exports.uploadAvatar = async (req, res) => {
+export const uploadAvatar = async (req, res) => {
   try {
     if (!req.file) {
       return res.redirect(
@@ -123,7 +123,7 @@ module.exports.uploadAvatar = async (req, res) => {
   }
 };
 
-module.exports.updatePassword = async (req, res) => {
+export const updatePassword = async (req, res) => {
   const { currentPassword, newPassword, confirmPassword } = req.body;
 
   try {

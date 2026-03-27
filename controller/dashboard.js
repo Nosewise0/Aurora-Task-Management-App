@@ -1,11 +1,9 @@
+import db from "../config/database.js";
 
-const db = require("../config/database");
-
-module.exports.renderTask = async (req, res) => {
+export const renderTask = async (req, res) => {
   try {
     const userId = res.locals.user?.id;
     if (!userId) return res.redirect("/login?error=You must be logged in");
-
 
     const [taskCounts] = await db.execute(
       `
@@ -52,4 +50,3 @@ module.exports.renderTask = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-

@@ -1,24 +1,31 @@
-require('dotenv').config();
+import 'dotenv/config';
 
-const express = require("express");
+import express from "express";
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
+import path from "path";
+import { fileURLToPath } from "url";
+import methodOverride from "method-override";
+import ejsMate from "ejs-mate";
+
+import db from "./config/database.js";
+
+import authRoutes from "./router/authRoutes.js";
+import settingsRoutes from "./router/settingsRoutes.js";
+import calendarRoutes from "./router/calendarRoutes.js";
+import tasksRoutes from "./router/taskRoutes.js";
+import projectRoutes from "./router/projectRoutes.js";
+import teamRoutes from "./router/teamRoutes.js";
+import dashboardRoutes from "./router/dashboardRoutes.js";
+import notificationRoutes from "./router/notificationRoutes.js";
+import aiRoutes from "./router/aiRoutes.js";
+
+import { isLoggedIn } from "./middleware/auth.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const cookie = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-const db = require("./config/database");
-const ejsMate = require("ejs-mate");
-const path = require("path");
-const methodOverride = require("method-override");
-
-const authRoutes = require('./router/authRoutes');
-const settingsRoutes = require('./router/settingsRoutes');
-const calendarRoutes = require('./router/calendarRoutes');
-const tasksRoutes = require('./router/taskRoutes');
-const projectRoutes = require('./router/projectRoutes');
-const teamRoutes = require('./router/teamRoutes');
-const dashboardRoutes = require('./router/dashboardRoutes');
-const notificationRoutes = require('./router/notificationRoutes');
-const aiRoutes = require('./router/aiRoutes');
-const { isLoggedIn } = require('./middleware/auth');
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -27,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cookie());
+app.use(cookieParser());
 
 const JWT_SECRET = process.env.JWT_SECRET || "thisshouldbeasecret";
 

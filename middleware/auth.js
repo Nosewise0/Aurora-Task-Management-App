@@ -1,8 +1,9 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET;
 
-function isLoggedIn(req, res, next) {
+export function isLoggedIn(req, res, next) {
     const { token } = req.cookies;
+
     if (!token) {
         return res.redirect("/login?error=You must be logged in to do that.");
     }
@@ -16,4 +17,3 @@ function isLoggedIn(req, res, next) {
     }
 }
 
-module.exports = { isLoggedIn };

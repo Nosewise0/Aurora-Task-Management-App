@@ -1,3 +1,3 @@
-import ollama from 'ollama'
+import ollama from 'ollama';
 
-module.exports.ollama
+export { ollama };

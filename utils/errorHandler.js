@@ -17,7 +17,7 @@ const ERRORS = {
     },
 };
 
-function renderError(res, statusCode, customMessage) {
+export function renderError(res, statusCode, customMessage) {
     const defaults = ERRORS[statusCode] || ERRORS[500];
     res.status(statusCode).render("error", {
         statusCode,
@@ -25,5 +25,3 @@ function renderError(res, statusCode, customMessage) {
         message: customMessage || defaults.message,
     });
 }
-
-module.exports = { renderError };
