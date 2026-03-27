@@ -29,7 +29,7 @@
                     </div>
                     <div class="text-success small mt-2">
                         <i class="fas fa-arrow-up me-1"></i>
-                            <%= totalTasks ? Math.floor(totalTasks * 0.12) + "% increase" : "" %>
+                        <%= totalTasks ? Math.floor(totalTasks * 0.12) + "% increase" : "" %>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,8 @@
         <div class="row g-4">
             <div class="col-md-8">
                 <div class="glass-card h-100">
-                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
+                    <div
+                        class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
                         <h5 class="fw-bold mb-0">Recent Activity</h5>
                         <a href="#" class="text-decoration-none small" style="color: var(--accent-primary);">View
                             All</a>
@@ -109,18 +110,22 @@
                     <% teamMembers.forEach(member=> { %>
                         <div class="d-flex align-items-center mb-3">
                             <div class="rounded-circle bg-secondary p-3 me-3">
-                                <%= (member.username || '').split(' ').map(n => n?.charAt(0) || '').join('').toUpperCase().slice(0, 2) || '?' %>
-                        </div>
-                        <div>
-                            <div class="fw-bold"><%= member.username %></div>
-                            <div class="text-<%= member.status === ' Available' ? 'success' : member.status==='Away'
+                                <%= (member.username || ''
+                                    ).split(' ').map(n => n?.charAt(0) || '').join('').toUpperCase().slice(0, 2) || ' ?'
+                                    %>
+                            </div>
+                            <div>
+                                <div class="fw-bold">
+                                    <%= member.username %>
+                                </div>
+                                <div class="text-<%= member.status === ' Available' ? 'success' : member.status==='Away'
                                     ? 'warning' : 'danger' %> small">
                                     <%= member.status %>
+                                </div>
                             </div>
                         </div>
+                        <% }) %>
                 </div>
-                <% }) %>
             </div>
         </div>
-    </div>
     </div>
