@@ -62,3 +62,15 @@ body.theme-dark {
   --border-color: #1f2933;
   --border-hover: #4b5563;
 }
+
+html[data-density="compact"] {
+  font-size: 14px;
+}
+
+html[data-density="cozy"] {
+  font-size: 15px;
+}
+
+html[data-density="comfortable"] {
+  font-size: 16px;
+}

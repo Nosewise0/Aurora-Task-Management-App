@@ -159,26 +159,26 @@
                 <p class="text-secondary small mb-3">Personalize your workspace.</p>
                 
                 <div class="settings-theme-grid mb-4">
-                    <div class="settings-theme-option active">
+                    <div class="settings-theme-option" id="light-option">
                         <div class="settings-theme-swatch settings-theme-swatch-light"></div>
                         <div>
                             <div class="fw-semibold">Light</div>
                         </div>
                     </div>
-                    <div class="settings-theme-option">
+                    <div class="settings-theme-option" id="dark-option">
                         <div class="settings-theme-swatch settings-theme-swatch-dark"></div>
                         <div>
-                            <div class="fw-semibold">Dark</div>
+                            <div class="fw-semibold" id="darkAppearance">Dark</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label text-secondary small fw-bold">Density</label>
-                    <select class="input-premium">
-                        <option>Comfortable</option>
-                        <option>Compact</option>
-                        <option>Cozy</option>
+                    <label class="form-label text-secondary small fw-bold" for="density-select">Density</label>
+                    <select class="input-premium" id="density-select">
+                        <option value="comfortable">Comfortable</option>
+                        <option value="compact">Compact</option>
+                        <option value="cozy">Cozy</option>
                     </select>
                 </div>
 
